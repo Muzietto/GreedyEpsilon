@@ -13,10 +13,10 @@ import java.util.Random;
  */
 public class Explorer {
 
-    private final List<Arm> arms;
+    private final List<BernoulliArm> arms;
     private final Random randomizer;
 
-    public Explorer(List<Arm> someArms, Random aRandomizer) {
+    public Explorer(List<BernoulliArm> someArms, Random aRandomizer) {
         arms = someArms;
         randomizer = aRandomizer;
     }
@@ -24,6 +24,6 @@ public class Explorer {
     public Double pullArm() {
         Integer rnd = randomizer.nextInt(arms.size());
 
-        return arms.get(rnd).reward();
+        return arms.get(rnd).draw();
     }
 }
