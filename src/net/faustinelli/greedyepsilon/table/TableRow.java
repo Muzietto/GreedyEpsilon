@@ -29,11 +29,11 @@ public class TableRow<T> extends LinkedList<T> {
     }
 
     public String rowName() {
-        return _rowName;
+        return new String(_rowName);
     }
 
-    public int horizon() {
-        return _horizon;
+    public Integer horizon() {
+        return new Integer(_horizon);
     }
 
     public TableRow<Double> dividedBy(TableRow divisor) {

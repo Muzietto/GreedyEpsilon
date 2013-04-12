@@ -32,6 +32,10 @@ public class EpsilonGreedy {
         _values = new ArrayList<Double>(armsNo);
     }
 
+    public Double epsilon(){
+        return new Double(_epsilon);
+    }
+
     public void initialize() {
         _counts.clear();
         _values.clear();
