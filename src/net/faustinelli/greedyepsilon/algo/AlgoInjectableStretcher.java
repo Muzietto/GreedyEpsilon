@@ -33,6 +33,7 @@ public class AlgoInjectableStretcher {
         TableRow<Integer> bestArm = new TableRow<Integer>("bestArm", horizon);
         RunningAverageTableRow bestArmPercentage = new RunningAverageTableRow("goodArmPercentage", horizon);
         TableRow<Double> reward = new TableRow<Double>("reward", horizon);
+        RunningAverageTableRow averageReward = new RunningAverageTableRow("averageReward", horizon);
         TableRow<Double> cumReward = new TableRow<Double>("cumReward", horizon);
         TableRow<Integer> simNum = new TableRow<Integer>("simNum", horizon);
         TableRow<Integer> draw = new TableRow<Integer>("draw", horizon);
@@ -47,6 +48,7 @@ public class AlgoInjectableStretcher {
             simNum.clear();
             draw.clear();
             reward.clear();
+            averageReward.clear();
             cumReward.clear();
 
             final List<Double> armProbabilities =
@@ -74,6 +76,7 @@ public class AlgoInjectableStretcher {
                 Double curReward = arms.get(chosenArm.get(curDraw)).draw();
 
                 reward.add(curReward);
+                averageReward.add(curReward);
 
                 if (curDraw == 0) {
                     cumReward.add(curReward);
@@ -85,23 +88,16 @@ public class AlgoInjectableStretcher {
 
             }  // end single simulation
 
-           // writeCsvRow(chosenArm);
-           // writeCsvRow(bestArm);
-            writeCsvRow(bestArmPercentage);
-           // writeCsvRow(simNum);
-           // writeCsvRow(draw);
+            // writeCsvRow(chosenArm);
+            // writeCsvRow(bestArm);
+//            writeCsvRow(bestArmPercentage);
+            // writeCsvRow(simNum);
+            // writeCsvRow(draw);
 //            writeCsvRow(reward);
-            //          writeCsvRow(cumReward);
+            //writeCsvRow(averageReward);
+            writeCsvRow(cumReward);
         }  // end all simulations
 
-        /*
-        List<Integer> simNum = new ArrayList<Integer>();
-        List<Integer> draw = new ArrayList<Integer>();
-        List<Integer> bestArm = new ArrayList<Integer>();
-        List<Integer> chosenArm = new ArrayList<Integer>();
-        List<Double> reward = new ArrayList<Double>();
-        List<Double> cumReward = new ArrayList<Double>();
-         */
     }  // end testAlgorithm
 
     private void writeCsvRow(TableRow list) throws IOException {

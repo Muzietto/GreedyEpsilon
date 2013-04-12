@@ -30,9 +30,9 @@ public class Main {
 
         List<BernoulliArm> arms = Arrays.asList(new BernoulliArm[]{
                     new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
+                    new BernoulliArm(0.3, rnd),
+                    new BernoulliArm(0.5, rnd),
+                    new BernoulliArm(0.7, rnd),
                     new BernoulliArm(0.9, rnd)
                 });
 
@@ -41,7 +41,7 @@ public class Main {
          * epsilon = 0.0 --> always exploit
          * @author Marco Faustinelli <contatti@faustinelli.net>
          */
-        Double epsilon = 0.1;
+        Double epsilon = 0.9;
 
         EpsilonGreedy algo = new EpsilonGreedy(epsilon, arms.size(), rnd);
 
