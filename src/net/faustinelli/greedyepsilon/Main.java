@@ -5,9 +5,6 @@
 package net.faustinelli.greedyepsilon;
 
 import net.faustinelli.greedyepsilon.algo.AlgoInjectableStretcher;
-import com.google.common.collect.DiscreteDomains;
-import com.google.common.collect.Range;
-import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,7 +36,12 @@ public class Main {
                     new BernoulliArm(0.9, rnd)
                 });
 
-        Double epsilon = 0.5;
+        /**
+         * epsilon = 1.0 --> always explore
+         * epsilon = 0.0 --> always exploit
+         * @author Marco Faustinelli <contatti@faustinelli.net>
+         */
+        Double epsilon = 0.1;
 
         EpsilonGreedy algo = new EpsilonGreedy(epsilon, arms.size(), rnd);
 

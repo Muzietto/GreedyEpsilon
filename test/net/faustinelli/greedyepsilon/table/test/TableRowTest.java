@@ -5,10 +5,6 @@
 package net.faustinelli.greedyepsilon.table.test;
 
 import net.faustinelli.greedyepsilon.table.TableRow;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,29 +13,6 @@ import static org.junit.Assert.*;
  * @author Marco Faustinelli <contatti@faustinelli.net>
  */
 public class TableRowTest {
-
-    public TableRowTest() {
-    }
-
-    @Test
-    public void testTableRow01() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
 
     @Test
     public void testDividedBy() {
@@ -54,5 +27,19 @@ public class TableRowTest {
         assertEquals("upper/lower", fractions.rowName());
         assertEquals(new Double(0.0), fractions.get(0));
         assertEquals(new Double(3.0), fractions.get(1));
+    }
+    @Test
+    public void testDividedByWithZeroes() {
+        TableRow<Integer> upper = new TableRow<Integer>("upper", 2);
+        upper.add(0);
+        upper.add(6);
+        TableRow<Integer> lower = new TableRow<Integer>("lower", 2);
+        lower.add(0);
+        lower.add(0);
+
+        TableRow<Double> fractions = upper.dividedBy(lower);
+        assertEquals("upper/lower", fractions.rowName());
+        assertEquals(Double.NaN, (Object)fractions.get(0));
+        assertEquals(Double.POSITIVE_INFINITY, (Object)fractions.get(1));
     }
 }

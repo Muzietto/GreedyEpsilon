@@ -15,8 +15,13 @@ import java.util.LinkedList;
  */
 public class TableRow<T> extends LinkedList<T> {
 
-    private final Integer _horizon;
-    private final String _rowName;
+    protected Integer _horizon = null;
+    protected String _rowName = null;
+
+    public TableRow() {
+    }
+
+
 
     public TableRow(String rowName, Integer horizon) {
         _horizon = horizon;

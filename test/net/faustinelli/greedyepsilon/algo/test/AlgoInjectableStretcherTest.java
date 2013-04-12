@@ -14,10 +14,6 @@ import java.util.List;
 import net.faustinelli.greedyepsilon.algo.AlgoInjectableStretcher;
 import net.faustinelli.greedyepsilon.algo.EpsilonGreedy;
 import net.faustinelli.greedyepsilon.components.BernoulliArm;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -27,28 +23,6 @@ import static org.junit.Assert.*;
  */
 public class AlgoInjectableStretcherTest {
 
-    public AlgoInjectableStretcherTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of testAlgorithm method, of class AlgoInjectableStretcher.
-     */
     @Test
     public void testTestAlgorithm() throws IOException {
 
@@ -73,7 +47,7 @@ public class AlgoInjectableStretcherTest {
         wrrrr.flush();
         wrrrr.close();
 
-        assertEquals("0", baos.toString().substring(0,1));
+        assertEquals("c", baos.toString().substring(0, 1));
 
     }
 }
