@@ -26,7 +26,7 @@ public class EpsilonGreedy {
 
     public EpsilonGreedy(Double epsilon, Integer armsNo, Random randomizer) {
         _epsilon = epsilon;
-        _randomizer = randomizer;
+        _randomizer = (randomizer != null) ? randomizer : new Random(System.nanoTime());
         _armsNo = armsNo;
         _counts = new ArrayList<Integer>(armsNo);
         _values = new ArrayList<Double>(armsNo);

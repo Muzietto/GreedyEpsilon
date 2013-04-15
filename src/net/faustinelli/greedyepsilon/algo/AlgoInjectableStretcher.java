@@ -95,16 +95,8 @@ public class AlgoInjectableStretcher {
             // writeCsvRow(draw);
 //            writeCsvRow(reward);
             //writeCsvRow(averageReward);
-            writeCsvRow(cumReward);
+            cumReward.writeCsvRow(_writer);
         }  // end all simulations
 
     }  // end testAlgorithm
-
-    private void writeCsvRow(TableRow list) throws IOException {
-        _writer.append(list.rowName() + ",");
-        for (Integer ii : Range.closed(0, list.horizon() - 1).asSet(DiscreteDomains.integers())) {
-            _writer.append(list.get(ii).toString() + ",");
-        }
-        _writer.append("\n");
-    }
 }

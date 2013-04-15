@@ -4,8 +4,9 @@
  */
 package net.faustinelli.greedyepsilon.table;
 
-import com.google.common.collect.DiscreteDomains;
-import com.google.common.collect.Range;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -20,8 +21,6 @@ public class TableRow<T> extends LinkedList<T> {
 
     public TableRow() {
     }
-
-
 
     public TableRow(String rowName, Integer horizon) {
         _horizon = horizon;
@@ -38,11 +37,29 @@ public class TableRow<T> extends LinkedList<T> {
 
     public TableRow<Double> dividedBy(TableRow divisor) {
         TableRow<Double> result = new TableRow<Double>(this._rowName + "/" + divisor.rowName(), _horizon);
-        for (Integer ii : Range.closed(0, _horizon-1).asSet(DiscreteDomains.integers())) {
+
+        for (T temp : this) {
+            Integer ii = this.indexOf(temp);
             Double dThisUp = (this.get(ii) instanceof Integer) ? (double) ((Integer) this.get(ii)).intValue() : (Double) this.get(ii);
             Double dThisDown = (this.get(ii) instanceof Integer) ? (double) ((Integer) divisor.get(ii)).intValue() : (Double) divisor.get(ii);
             result.add(ii, (dThisUp * 1.0 / dThisDown));
         }
+
         return result;
+    }
+
+    public void writeCsvRow(Writer writer) throws IOException {
+        this.writeCsvRow(writer, ",");
+    }
+
+    public void writeCsvRow(Writer writer, String separator) throws IOException {
+        String _separator = (separator != null) ? separator : ",";
+        Iterator thisIt = this.iterator();
+
+        writer.append(this._rowName + _separator);
+        while (thisIt.hasNext()) {
+            writer.append(thisIt.next().toString() + _separator);
+        }
+        writer.append("\n");
     }
 }

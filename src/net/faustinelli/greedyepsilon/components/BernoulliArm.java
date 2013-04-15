@@ -12,12 +12,12 @@ import java.util.Random;
  */
 public class BernoulliArm {
 
-    private final Double _probability;
+    private Double _probability;
     private final Random _randomizer;
 
     public BernoulliArm(Double probability, Random randomizer) {
         _probability = probability;
-        _randomizer = randomizer;
+        _randomizer = (randomizer != null) ? randomizer : new Random(System.nanoTime());
     }
 
     public Double draw() {
@@ -25,6 +25,10 @@ public class BernoulliArm {
     }
 
     public Double probability() {
-        return _probability;
+        return new Double(_probability);
+    }
+
+    public void probability(Double newProb) {
+        _probability = newProb;
     }
 }

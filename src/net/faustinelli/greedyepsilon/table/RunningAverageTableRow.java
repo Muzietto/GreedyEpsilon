@@ -4,8 +4,9 @@
  */
 package net.faustinelli.greedyepsilon.table;
 
-import com.google.common.collect.DiscreteDomains;
-import com.google.common.collect.Range;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -17,17 +18,17 @@ public class RunningAverageTableRow extends TableRow<Double> {
         super(rowName, horizon);
     }
 
-    public RunningAverageTableRow(TableRow tr) {
-        _rowName = "ave_" + tr.rowName();
-        _horizon = tr.horizon();
-
-        /*        while (this.iterator().hasNext()) {
-        System.out.println(iterator.next());
+    public RunningAverageTableRow(List tr) {
+        if (tr instanceof TableRow) {
+            _rowName = "ave_" + ((TableRow) tr).rowName();
+            _horizon = ((TableRow) tr).horizon();
+        } else {
+            _rowName = "ave_anonymous";
         }
-         */
 
-        for (Integer ii : Range.closed(0, tr.size() - 1).asSet(DiscreteDomains.integers())) {
-            this.add((Double) tr.get(ii));
+        Iterator thatIt = tr.iterator();
+        while (thatIt.hasNext()) {
+            this.add((Double) thatIt.next());
         }
     }
 
