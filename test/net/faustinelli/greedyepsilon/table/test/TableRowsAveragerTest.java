@@ -20,7 +20,6 @@ public class TableRowsAveragerTest {
     public void testMaxDimAndElse() {
         TableRow<Double> firstRow = new TableRow<Double>();
         firstRow.add(1.0);
-        firstRow.add(1.25);
         TableRow<Double> secondRow = new TableRow<Double>();
         secondRow.add(0.0);
         secondRow.add(1.0);

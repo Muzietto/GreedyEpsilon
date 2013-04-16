@@ -16,8 +16,9 @@ import java.util.Random;
  * epsilon = 0.0 --> always exploit
  * @author Marco Faustinelli <contatti@faustinelli.net>
  */
-public class EpsilonGreedy {
+public class EpsilonGreedy implements BanditAlgorithm {
 
+    private String _identifier = null;
     private final Double _epsilon;
     private final Random _randomizer;
     private final List<Integer> _counts;
@@ -32,7 +33,12 @@ public class EpsilonGreedy {
         _values = new ArrayList<Double>(armsNo);
     }
 
-    public Double epsilon(){
+    public EpsilonGreedy(Double epsilon, Integer armsNo, Random randomizer, String identifier) {
+        this(epsilon, armsNo, randomizer);
+        _identifier = identifier;
+    }
+
+    public Double ee_parameter() {
         return new Double(_epsilon);
     }
 
@@ -60,5 +66,13 @@ public class EpsilonGreedy {
         Double newValue = _values.get(armIndex) * (cc - 1) / cc + reward * 1 / cc;
         _values.set(armIndex, newValue);
 
+    }
+
+    public String identifier() {
+        return (_identifier != null) ? _identifier : "";
+    }
+
+    public void identifier(String identifier) {
+        _identifier = identifier;
     }
 }

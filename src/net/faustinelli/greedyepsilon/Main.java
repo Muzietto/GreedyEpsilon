@@ -10,10 +10,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import net.faustinelli.greedyepsilon.algo.EpsilonGreedy;
 import net.faustinelli.greedyepsilon.components.BernoulliArm;
+import net.faustinelli.greedyepsilon.table.TableRow;
 
 /**
  *
@@ -50,7 +53,12 @@ public class Main {
 
         Writer wrrrr = new PrintWriter(new FileWriter(sFileName));
 
-        new AlgoInjectableStretcher(wrrrr).testAlgorithm(algo, arms, numSims, horizon);
+        Map<String, TableRow> result = new HashMap<String, TableRow>();
+//        result.put("averageReward", new TableRow());
+        //      result.put("cumulativeReward", new TableRow());
+        result.put("bestArmPercentage", new TableRow());
+
+        new AlgoInjectableStretcher(wrrrr).testAlgorithm(algo, arms, numSims, horizon, result);
 
         wrrrr.flush();
         wrrrr.close();

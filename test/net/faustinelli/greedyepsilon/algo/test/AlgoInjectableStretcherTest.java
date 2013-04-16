@@ -4,6 +4,9 @@
  */
 package net.faustinelli.greedyepsilon.algo.test;
 
+import net.faustinelli.greedyepsilon.table.TableRow;
+import java.util.Map;
+import java.util.HashMap;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
@@ -40,14 +43,16 @@ public class AlgoInjectableStretcherTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Writer wrrrr = new PrintWriter(baos);
 
+        Map<String, TableRow> result = new HashMap<String, TableRow>();
+        result.put("bestArmPercentage", new TableRow("whatever","algo1"));
 
         AlgoInjectableStretcher instance = new AlgoInjectableStretcher(wrrrr);
-        instance.testAlgorithm(algo, arms, numSims, horizon);
+        instance.testAlgorithm(algo, arms, numSims, horizon, result);
 
         wrrrr.flush();
         wrrrr.close();
 
-        assertEquals("c", baos.toString().substring(0, 1));
+        assertEquals("algo1_bestArmPercentage,1.0", baos.toString().substring(0, 27));
 
     }
 }

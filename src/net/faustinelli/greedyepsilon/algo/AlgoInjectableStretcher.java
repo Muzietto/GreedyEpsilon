@@ -12,17 +12,23 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import net.faustinelli.greedyepsilon.components.BernoulliArm;
 import net.faustinelli.greedyepsilon.table.RunningAverageTableRow;
 import net.faustinelli.greedyepsilon.table.TableRow;
 import net.faustinelli.greedyepsilon.table.TableRowsAverager;
 
-/**
+/** Allows the following results:
+ * - "averageReward"
+ * - "cumulativeReward"
+ * - "bestArmPercentage"
  *
  * @author mfaustinelli
  */
-public class AlgoInjectableStretcher {
+public class AlgoInjectableStretcher implements BanditStretcher {
 
     private final Writer _writer;
 
@@ -30,12 +36,11 @@ public class AlgoInjectableStretcher {
         _writer = writer;
     }
 
-    public void testAlgorithm(EpsilonGreedy algo, List<BernoulliArm> arms, Integer numSims, Integer horizon) throws IOException {
+    public void testAlgorithm(BanditAlgorithm algo, List<BernoulliArm> arms, Integer numSims, Integer horizon, Map<String, TableRow> result) throws IOException {
 
-        List<TableRow<Double>> cumRewardData = null;
-        List<TableRow<Double>> bestArmPercentageData = null;
-        cumRewardData = new ArrayList<TableRow<Double>>();
-        bestArmPercentageData = new ArrayList<TableRow<Double>>();
+        List<TableRow<Double>> averageRewardData = new ArrayList<TableRow<Double>>();
+        List<TableRow<Double>> cumRewardData = new ArrayList<TableRow<Double>>();
+        List<TableRow<Double>> bestArmPercentageData = new ArrayList<TableRow<Double>>();
 
         // for each simulation...
         for (Integer sim : Range.closed(0, numSims - 1).asSet(DiscreteDomains.integers())) {
@@ -62,7 +67,6 @@ public class AlgoInjectableStretcher {
 
             algo.initialize();
 
-
             // for each draw within the horizon...
             for (Integer curDraw : Range.closed(0, horizon - 1).asSet(DiscreteDomains.integers())) {
                 bestArm.add(curBestArm);
@@ -85,28 +89,38 @@ public class AlgoInjectableStretcher {
                 }
                 algo.update(currArm, curReward);
 
-
             }  // end single draw
 
+            averageRewardData.add(averageReward);
             cumRewardData.add(cumReward);
             bestArmPercentageData.add(bestArmPercentage);
-
-            // writeCsvRow(chosenArm);
-            // writeCsvRow(bestArm);
-//            bestArmPercentage.writeCsvRow(_writer);
-            // writeCsvRow(simNum);
-            // writeCsvRow(draw);
-//            writeCsvRow(reward);
-            //writeCsvRow(averageReward);
-//            cumReward.writeCsvRow(_writer);
 
         }  // end simulation
 
         TableRowsAverager cumRewardAverages = new TableRowsAverager(cumRewardData, "cumulativeReward");
+        TableRowsAverager averageRewardAverages = new TableRowsAverager(cumRewardData, "averageReward");
         TableRowsAverager bestArmPercentageAverages = new TableRowsAverager(bestArmPercentageData, "bestArmPercentage");
 
-        bestArmPercentageAverages.writeCsvRow(_writer);
-        //cumRewardAverages.writeCsvRow(_writer);
+        Map<String, TableRow> innerResult = new HashMap<String, TableRow>();
+        innerResult.put("averageReward", averageRewardAverages);
+        innerResult.put("cumulativeReward", cumRewardAverages);
+        innerResult.put("bestArmPercentage", bestArmPercentageAverages);
+
+        Iterator<String> keys = result.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            if (innerResult.get(key) != null) {
+                TableRow tr = innerResult.get(key);
+                // AAA: copy algorithm identifier from given TableRow to calculation result
+                tr.algoIdentifier(result.get(key).algoIdentifier());
+                result.put(key, tr);
+                // this Stretcher has a side effect: write CSV files
+                tr.writeCsvRow(_writer);
+            } else {
+                throw new RuntimeException("cannot ask result " + key);
+            }
+        }
+
 
     }  // end testAlgorithm
 }

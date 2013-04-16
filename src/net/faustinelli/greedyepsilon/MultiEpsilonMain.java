@@ -11,11 +11,16 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
-import net.faustinelli.greedyepsilon.algo.AlgoMultiEpsilonInjectableStretcher;
+import net.faustinelli.greedyepsilon.algo.MultiEpsilonCampaigner;
+import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
+import net.faustinelli.greedyepsilon.algo.BanditStretcher;
 import net.faustinelli.greedyepsilon.algo.EpsilonGreedy;
 import net.faustinelli.greedyepsilon.components.BernoulliArm;
+import net.faustinelli.greedyepsilon.table.TableRow;
 
 /**
  *
@@ -27,7 +32,7 @@ public class MultiEpsilonMain {
         long seed = System.nanoTime();
         Random rnd = new Random(seed);
 
-        Integer numSims = 200;
+        Integer numSims = 250;
         Integer horizon = 200;
 
         List<BernoulliArm> arms = Arrays.asList(new BernoulliArm[]{
@@ -43,20 +48,27 @@ public class MultiEpsilonMain {
          * epsilon = 0.0 --> always exploit
          * @author Marco Faustinelli <contatti@faustinelli.net>
          */
+        List<BanditAlgorithm> algos = new ArrayList<BanditAlgorithm>();
 
-        List<EpsilonGreedy> algos = new ArrayList<EpsilonGreedy>();
-
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd));
-        algos.add(new EpsilonGreedy(0.3, arms.size(), rnd));
-        algos.add(new EpsilonGreedy(0.5, arms.size(), rnd));
-        algos.add(new EpsilonGreedy(0.7, arms.size(), rnd));
-        algos.add(new EpsilonGreedy(0.9, arms.size(), rnd));
+        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.1"));
+        algos.add(new EpsilonGreedy(0.3, arms.size(), rnd, "epsi0.3"));
+        algos.add(new EpsilonGreedy(0.5, arms.size(), rnd, "epsi0.5"));
+        algos.add(new EpsilonGreedy(0.7, arms.size(), rnd, "epsi0.7"));
+        algos.add(new EpsilonGreedy(0.9, arms.size(), rnd, "epsi0.9"));
 
         String sFileName = "test/datafiles/" + Long.toString(seed) + ".csv";
         System.out.println("file is " + sFileName);
         Writer wrrrr = new PrintWriter(new FileWriter(sFileName));
 
-        new AlgoMultiEpsilonInjectableStretcher(wrrrr).campaignAlgorithm(algos, arms, numSims, horizon);
+        BanditStretcher stretcher = new AlgoInjectableStretcher(wrrrr);
+
+        Map<String, TableRow> result = new HashMap<String, TableRow>();
+
+        // result.put("bestArmPercentage", new TableRow());
+        // result.put("averageReward", new TableRow());
+        result.put("cumulativeReward", new TableRow());
+
+        new MultiEpsilonCampaigner(stretcher).campaignAlgorithms(algos, arms, numSims, horizon, result);
 
         wrrrr.flush();
         wrrrr.close();

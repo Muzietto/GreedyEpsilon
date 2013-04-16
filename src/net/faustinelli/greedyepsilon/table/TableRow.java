@@ -18,8 +18,14 @@ public class TableRow<T> extends LinkedList<T> {
 
     protected Integer _horizon = null;
     protected String _rowName = null;
+    protected String _algoIdentifier = null;
 
     public TableRow() {
+    }
+
+    public TableRow(String rowName, String algIde) {
+        _rowName = rowName;
+        _algoIdentifier = algIde;
     }
 
     public TableRow(String rowName, Integer horizon) {
@@ -29,6 +35,14 @@ public class TableRow<T> extends LinkedList<T> {
 
     public String rowName() {
         return new String(_rowName);
+    }
+
+    public String algoIdentifier() {
+        return new String(_algoIdentifier);
+    }
+
+    public void algoIdentifier(String idd) {
+        _algoIdentifier = new String(idd);
     }
 
     public Integer horizon() {
@@ -56,6 +70,7 @@ public class TableRow<T> extends LinkedList<T> {
         String _separator = (separator != null) ? separator : ",";
         Iterator thisIt = this.iterator();
 
+        writer.append((this._algoIdentifier != null) ? this._algoIdentifier + "_" : "");
         writer.append(this._rowName + _separator);
         while (thisIt.hasNext()) {
             writer.append(thisIt.next().toString() + _separator);
@@ -65,21 +80,21 @@ public class TableRow<T> extends LinkedList<T> {
 
     @Override
     public String toString() {
-        String result = "{" + _rowName+ ";";// + "/" + this.size() + ";";
-        for (Integer ii = 0; ii< this.size();ii++) {
+        String result = "{" + _rowName + ";";// + "/" + this.size() + ";";
+        for (Integer ii = 0; ii < this.size(); ii++) {
             result += this.get(ii).toString();// + "/" + ii;
-            if (ii < this.size()-1) {
+            if (ii < this.size() - 1) {
                 result += ",";
             }
         }
-/*        for (T item : this) {
-            result += item.toString() + "/" + this.indexOf(item);
-            if (this.indexOf(item) < this.size()) {
-                result += ",";
-            }
+        /*        for (T item : this) {
+        result += item.toString() + "/" + this.indexOf(item);
+        if (this.indexOf(item) < this.size()) {
+        result += ",";
         }
- *
- */
+        }
+         *
+         */
         result += "}";
         return result;
     }
