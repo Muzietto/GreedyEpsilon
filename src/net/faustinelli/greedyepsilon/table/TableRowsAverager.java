@@ -19,10 +19,16 @@ import java.util.List;
  */
 public class TableRowsAverager extends TableRow {
 
-    private final List<TableRow> _rows;
+    public final List<TableRow> _rows;
     private final Integer _maxDim;
 
+    public TableRowsAverager(List<TableRow<Double>> rows, String rowName) {
+        this(rows);
+        _rowName = rowName;
+    }
+
     public TableRowsAverager(List<TableRow<Double>> rows) {
+        _rowName = (_rowName !=  null) ? _rowName : "averages";
         _rows = new ArrayList<TableRow>(rows);
         _maxDim = Collections.max(Lists.transform(rows, new Function<TableRow, Integer>() {
 

@@ -62,4 +62,25 @@ public class TableRow<T> extends LinkedList<T> {
         }
         writer.append("\n");
     }
+
+    @Override
+    public String toString() {
+        String result = "{" + _rowName+ ";";// + "/" + this.size() + ";";
+        for (Integer ii = 0; ii< this.size();ii++) {
+            result += this.get(ii).toString();// + "/" + ii;
+            if (ii < this.size()-1) {
+                result += ",";
+            }
+        }
+/*        for (T item : this) {
+            result += item.toString() + "/" + this.indexOf(item);
+            if (this.indexOf(item) < this.size()) {
+                result += ",";
+            }
+        }
+ *
+ */
+        result += "}";
+        return result;
+    }
 }

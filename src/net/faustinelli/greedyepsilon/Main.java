@@ -25,7 +25,7 @@ public class Main {
         long seed = System.nanoTime();
         Random rnd = new Random(seed);
 
-        Integer numSims = 200;
+        Integer numSims = 250;
         Integer horizon = 200;
 
         List<BernoulliArm> arms = Arrays.asList(new BernoulliArm[]{
@@ -41,7 +41,7 @@ public class Main {
          * epsilon = 0.0 --> always exploit
          * @author Marco Faustinelli <contatti@faustinelli.net>
          */
-        Double epsilon = 0.9;
+        Double epsilon = 0.7;
 
         EpsilonGreedy algo = new EpsilonGreedy(epsilon, arms.size(), rnd);
 

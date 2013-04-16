@@ -20,12 +20,16 @@ public class TableRowsAveragerTest {
     public void testMaxDimAndElse() {
         TableRow<Double> firstRow = new TableRow<Double>();
         firstRow.add(1.0);
+        firstRow.add(1.25);
         TableRow<Double> secondRow = new TableRow<Double>();
         secondRow.add(0.0);
         secondRow.add(1.0);
         secondRow.add(2.0);
 
-        TableRowsAverager averages = new TableRowsAverager(Arrays.asList(firstRow, secondRow));
+        TableRowsAverager averages = new TableRowsAverager(Arrays.asList(firstRow, secondRow),"testAverages");
+
+        // text rowName
+        assertEquals("testAverages", averages.rowName());
 
         // text maxDim
         assertEquals(new Integer(3), averages.maxDim());
