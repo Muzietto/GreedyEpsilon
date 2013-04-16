@@ -98,7 +98,7 @@ public class AlgoInjectableStretcher implements BanditStretcher {
         }  // end simulation
 
         TableRowsAverager cumRewardAverages = new TableRowsAverager(cumRewardData, "cumulativeReward");
-        TableRowsAverager averageRewardAverages = new TableRowsAverager(cumRewardData, "averageReward");
+        TableRowsAverager averageRewardAverages = new TableRowsAverager(averageRewardData, "averageReward");
         TableRowsAverager bestArmPercentageAverages = new TableRowsAverager(bestArmPercentageData, "bestArmPercentage");
 
         Map<String, TableRow> innerResult = new HashMap<String, TableRow>();
