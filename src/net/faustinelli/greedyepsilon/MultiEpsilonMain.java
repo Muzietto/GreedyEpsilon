@@ -35,98 +35,23 @@ public class MultiEpsilonMain {
         Integer numSims = 250;
         Integer horizon = 500;
 
-        List<BernoulliArm> arms = Arrays.asList(new BernoulliArm[]{
+        List<BernoulliArm> arms_ref = Arrays.asList(new BernoulliArm[]{
                     new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.1, rnd),
-                    //new BernoulliArm(0.3, rnd),
-                    //new BernoulliArm(0.5, rnd),
-                    //new BernoulliArm(0.7, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
-                    new BernoulliArm(0.9, rnd),
+                    new BernoulliArm(0.3, rnd),
+                    new BernoulliArm(0.5, rnd),
+                    new BernoulliArm(0.7, rnd),
                     new BernoulliArm(0.9, rnd)
                 });
+
+        List<BernoulliArm> arms = new ArrayList<BernoulliArm>();
+
+        for (int iii = 0; iii < 40; iii++) {
+                    arms.add(new BernoulliArm(0.1, rnd));
+                    arms.add(new BernoulliArm(0.3, rnd));
+                    arms.add(new BernoulliArm(0.5, rnd));
+                    arms.add(new BernoulliArm(0.7, rnd));
+                    arms.add(new BernoulliArm(0.9, rnd));
+        }
 
         /**
          * epsilon = 1.0 --> always explore
@@ -135,11 +60,11 @@ public class MultiEpsilonMain {
          */
         List<BanditAlgorithm> algos = new ArrayList<BanditAlgorithm>();
 
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.1_85arms"));
-        algos.add(new EpsilonGreedy(0.3, arms.size(), rnd, "epsi0.3_85arms"));
-        algos.add(new EpsilonGreedy(0.5, arms.size(), rnd, "epsi0.5_85arms"));
-        algos.add(new EpsilonGreedy(0.7, arms.size(), rnd, "epsi0.7_85arms"));
-        algos.add(new EpsilonGreedy(0.9, arms.size(), rnd, "epsi0.9_85arms"));
+        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.1_200arms"));
+        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.3_200arms"));
+        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.5_200arms"));
+        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.7_200arms"));
+        algos.add(new EpsilonGreedy(0.9, arms.size(), rnd, "epsi0.9_200arms"));
 
         String sFileName = "test/datafiles/" + Long.toString(seed) + ".csv";
         System.out.println("file is " + sFileName);
@@ -149,9 +74,9 @@ public class MultiEpsilonMain {
 
         Map<String, TableRow> result = new HashMap<String, TableRow>();
 
-         result.put("bestArmPercentage", new TableRow());
+        //result.put("bestArmPercentage", new TableRow());
         //result.put("averageReward", new TableRow());
-        //result.put("cumulativeReward", new TableRow());
+        result.put("cumulativeReward", new TableRow());
 
         new MultiEpsilonCampaigner(stretcher).campaignAlgorithms(algos, arms, numSims, horizon, result);
 
