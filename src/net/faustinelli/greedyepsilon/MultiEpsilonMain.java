@@ -19,6 +19,7 @@ import net.faustinelli.greedyepsilon.algo.MultiEpsilonCampaigner;
 import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
 import net.faustinelli.greedyepsilon.algo.BanditStretcher;
 import net.faustinelli.greedyepsilon.algo.EpsilonGreedy;
+import net.faustinelli.greedyepsilon.algo.OptimisticEpsilonGreedy;
 import net.faustinelli.greedyepsilon.components.BernoulliArm;
 import net.faustinelli.greedyepsilon.table.TableRow;
 
@@ -32,25 +33,27 @@ public class MultiEpsilonMain {
         long seed = System.nanoTime();
         Random rnd = new Random(seed);
 
-        Integer numSims = 250;
+        Integer numSims = 2000;
         Integer horizon = 500;
 
+        /*
         List<BernoulliArm> arms_ref = Arrays.asList(new BernoulliArm[]{
-                    new BernoulliArm(0.1, rnd),
-                    new BernoulliArm(0.3, rnd),
-                    new BernoulliArm(0.5, rnd),
-                    new BernoulliArm(0.7, rnd),
-                    new BernoulliArm(0.9, rnd)
-                });
+        new BernoulliArm(0.1, rnd),
+        new BernoulliArm(0.3, rnd),
+        new BernoulliArm(0.5, rnd),
+        new BernoulliArm(0.7, rnd),
+        new BernoulliArm(0.9, rnd)
+        });
+         */
 
         List<BernoulliArm> arms = new ArrayList<BernoulliArm>();
 
-        for (int iii = 0; iii < 16; iii++) {
-                    arms.add(new BernoulliArm(0.1, rnd));
-                    arms.add(new BernoulliArm(0.3, rnd));
-                    arms.add(new BernoulliArm(0.5, rnd));
-                    arms.add(new BernoulliArm(0.7, rnd));
-                    arms.add(new BernoulliArm(0.9, rnd));
+        for (int iii = 0; iii < 1; iii++) {
+            arms.add(new BernoulliArm(0.1, rnd));
+            arms.add(new BernoulliArm(0.1, rnd));
+            arms.add(new BernoulliArm(0.1, rnd));
+            arms.add(new BernoulliArm(0.1, rnd));
+            arms.add(new BernoulliArm(0.9, rnd));
         }
 
         /**
@@ -60,11 +63,11 @@ public class MultiEpsilonMain {
          */
         List<BanditAlgorithm> algos = new ArrayList<BanditAlgorithm>();
 
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.1_80arms"));
-        algos.add(new EpsilonGreedy(0.3, arms.size(), rnd, "epsi0.3_80arms"));
-        algos.add(new EpsilonGreedy(0.5, arms.size(), rnd, "epsi0.5_80arms"));
-        algos.add(new EpsilonGreedy(0.7, arms.size(), rnd, "epsi0.7_80arms"));
-        algos.add(new EpsilonGreedy(0.9, arms.size(), rnd, "epsi0.9_80arms"));
+        algos.add(new OptimisticEpsilonGreedy(0.1, arms.size(), rnd, "optiEpsi0.1_5arms"));
+        algos.add(new OptimisticEpsilonGreedy(0.3, arms.size(), rnd, "optiEpsi0.3_5arms"));
+        algos.add(new OptimisticEpsilonGreedy(0.5, arms.size(), rnd, "optiEpsi0.5_5arms"));
+        algos.add(new OptimisticEpsilonGreedy(0.7, arms.size(), rnd, "optiEpsi0.7_5arms"));
+        algos.add(new OptimisticEpsilonGreedy(0.9, arms.size(), rnd, "optiEpsi0.9_5arms"));
 
         String sFileName = "test/datafiles/" + Long.toString(seed) + ".csv";
         System.out.println("file is " + sFileName);
