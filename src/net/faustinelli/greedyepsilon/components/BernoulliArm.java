@@ -12,23 +12,23 @@ import java.util.Random;
  */
 public class BernoulliArm {
 
-    private Double _probability;
+    private Double _rewardProbability;
     private final Random _randomizer;
 
-    public BernoulliArm(Double probability, Random randomizer) {
-        _probability = probability;
+    public BernoulliArm(Double rewardProbability, Random randomizer) {
+        _rewardProbability = rewardProbability;
         _randomizer = (randomizer != null) ? randomizer : new Random(System.nanoTime());
     }
 
     public Double draw() {
-        return (_randomizer.nextDouble() > _probability) ? 0.0 : 1.0;
+        return (_randomizer.nextDouble() > _rewardProbability) ? 0.0 : 1.0;
     }
 
-    public Double probability() {
-        return new Double(_probability);
+    public Double rewardProbability() {
+        return new Double(_rewardProbability);
     }
 
-    public void probability(Double newProb) {
-        _probability = newProb;
+    public void rewardProbability(Double newProb) {
+        _rewardProbability = newProb;
     }
 }

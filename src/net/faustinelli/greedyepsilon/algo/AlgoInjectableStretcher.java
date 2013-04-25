@@ -59,7 +59,7 @@ public class AlgoInjectableStretcher implements BanditStretcher {
                     Lists.transform(arms, new Function<BernoulliArm, Double>() {
 
                 public Double apply(final BernoulliArm arm) {
-                    return arm.probability();
+                    return arm.rewardProbability();
                 }
             });
 

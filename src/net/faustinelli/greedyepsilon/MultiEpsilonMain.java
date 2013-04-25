@@ -45,7 +45,7 @@ public class MultiEpsilonMain {
 
         List<BernoulliArm> arms = new ArrayList<BernoulliArm>();
 
-        for (int iii = 0; iii < 40; iii++) {
+        for (int iii = 0; iii < 16; iii++) {
                     arms.add(new BernoulliArm(0.1, rnd));
                     arms.add(new BernoulliArm(0.3, rnd));
                     arms.add(new BernoulliArm(0.5, rnd));
@@ -60,11 +60,11 @@ public class MultiEpsilonMain {
          */
         List<BanditAlgorithm> algos = new ArrayList<BanditAlgorithm>();
 
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.1_200arms"));
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.3_200arms"));
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.5_200arms"));
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.7_200arms"));
-        algos.add(new EpsilonGreedy(0.9, arms.size(), rnd, "epsi0.9_200arms"));
+        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.1_80arms"));
+        algos.add(new EpsilonGreedy(0.3, arms.size(), rnd, "epsi0.3_80arms"));
+        algos.add(new EpsilonGreedy(0.5, arms.size(), rnd, "epsi0.5_80arms"));
+        algos.add(new EpsilonGreedy(0.7, arms.size(), rnd, "epsi0.7_80arms"));
+        algos.add(new EpsilonGreedy(0.9, arms.size(), rnd, "epsi0.9_80arms"));
 
         String sFileName = "test/datafiles/" + Long.toString(seed) + ".csv";
         System.out.println("file is " + sFileName);
@@ -74,9 +74,9 @@ public class MultiEpsilonMain {
 
         Map<String, TableRow> result = new HashMap<String, TableRow>();
 
-        //result.put("bestArmPercentage", new TableRow());
+        result.put("bestArmPercentage", new TableRow());
         //result.put("averageReward", new TableRow());
-        result.put("cumulativeReward", new TableRow());
+        //result.put("cumulativeReward", new TableRow());
 
         new MultiEpsilonCampaigner(stretcher).campaignAlgorithms(algos, arms, numSims, horizon, result);
 

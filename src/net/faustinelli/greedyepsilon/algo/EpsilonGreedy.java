@@ -42,13 +42,25 @@ public class EpsilonGreedy implements BanditAlgorithm {
         return new Double(_epsilon);
     }
 
+    /**
+     * standard Epsilon Greedy algorithm is
+     * extremely pessimistic
+     */
     public void initialize() {
+        this.initialize(new Double(0.0));
+    }
+
+    /**
+     * optimism = 0.0 --> extreme scepticism about unknown arms
+     * optimism = 1.0 --> extreme faith about unknown arms
+     */
+    protected void initialize(Double optimismRate) {
         _counts.clear();
         _values.clear();
 
         for (Integer index : Range.closed(0, _armsNo - 1).asSet(DiscreteDomains.integers())) {
-            _counts.add(0);
-            _values.add(0.0);
+            _counts.add(optimismRate.intValue());
+            _values.add(optimismRate);
         }
     }
 
