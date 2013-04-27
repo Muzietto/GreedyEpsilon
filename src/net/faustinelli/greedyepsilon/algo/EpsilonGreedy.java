@@ -14,6 +14,7 @@ import java.util.Random;
 /**
  * epsilon = 1.0 --> always explore
  * epsilon = 0.0 --> always exploit
+ *
  * @author Marco Faustinelli <contatti@faustinelli.net>
  */
 public class EpsilonGreedy implements BanditAlgorithm {

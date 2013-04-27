@@ -19,7 +19,7 @@ import net.faustinelli.greedyepsilon.components.BernoulliArm;
 import net.faustinelli.greedyepsilon.table.TableRow;
 
 /**
- *
+ * Extremely rough class for running experiments
  * @author mfaustinelli
  */
 public class Main {

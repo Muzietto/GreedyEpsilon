@@ -11,10 +11,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Receives a list of TableRow's, makes a matrix and
- * computes the averages for each row.
+ * Receives a list of TableRow's, builds a matrix and
+ * computes the averages for each column.
  * If the rows have different sizes, this version fills
  * the shorter ones with zeroes
+ * 
  * @author Marco Faustinelli <contatti@faustinelli.net>
  */
 public class TableRowsAverager extends TableRow {
@@ -46,7 +47,7 @@ public class TableRowsAverager extends TableRow {
             }
         }
 
-        // compute averages
+        // compute averages for each column
         for (Integer x = 0; x < _maxDim; x++) {
             final int currX = x;
 

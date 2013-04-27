@@ -54,9 +54,9 @@ public class TableRow<T> extends LinkedList<T> {
 
         for (T temp : this) {
             Integer ii = this.indexOf(temp);
-            Double dThisUp = (this.get(ii) instanceof Integer) ? (double) ((Integer) this.get(ii)).intValue() : (Double) this.get(ii);
-            Double dThisDown = (this.get(ii) instanceof Integer) ? (double) ((Integer) divisor.get(ii)).intValue() : (Double) divisor.get(ii);
-            result.add(ii, (dThisUp * 1.0 / dThisDown));
+            Double dThisUp = (this.get(ii) == null) ? null : ((this.get(ii) instanceof Integer) ? (double) ((Integer) this.get(ii)).intValue() : (Double) this.get(ii));
+            Double dThisDown = (this.get(ii) == null) ? null : ((this.get(ii) instanceof Integer) ? (double) ((Integer) divisor.get(ii)).intValue() : (Double) divisor.get(ii));
+            result.add(ii, (dThisUp == null || dThisDown == null) ? null : (dThisUp * 1.0 / dThisDown));
         }
 
         return result;

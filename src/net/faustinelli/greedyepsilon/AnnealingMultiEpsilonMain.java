@@ -22,8 +22,8 @@ import net.faustinelli.greedyepsilon.components.BernoulliArm;
 import net.faustinelli.greedyepsilon.table.TableRow;
 
 /**
- *
- * @author mfaustinelli
+ * This class generates arms with linear distribution
+ * @author Marco Faustinelli <contatti@faustinelli.net>
  */
 public class AnnealingMultiEpsilonMain {
 
@@ -31,6 +31,13 @@ public class AnnealingMultiEpsilonMain {
         long seed = System.nanoTime();
         Random rnd = new Random(seed);
 
+        Integer armsNum = 200;
+        /**
+         * linearFactor = 0  --> linear distribution of arms' reward percentage
+         * linearFactor = - MAX_INTEGER --> almost all arms are stingy
+         * linearFactor = + MAX_INTEGER --> almost all arms are prodigal
+         */
+        Double linearFactor = 0.0;
         Integer numSims = 2000;
         Integer horizon = 500;
 
@@ -46,12 +53,10 @@ public class AnnealingMultiEpsilonMain {
 
         List<BernoulliArm> arms = new ArrayList<BernoulliArm>();
 
-        for (int iii = 0; iii < 2; iii++) {
-            arms.add(new BernoulliArm(0.1, rnd));
-            arms.add(new BernoulliArm(0.3, rnd));
-            arms.add(new BernoulliArm(0.5, rnd));
-            arms.add(new BernoulliArm(0.7, rnd));
-            arms.add(new BernoulliArm(0.9, rnd));
+        for (int armIndex = 0; armIndex < armsNum; armIndex++) {
+            double rewardPercentage = _rewardPercentage(armIndex, armsNum, linearFactor);
+            System.out.println("arm rewardPercentage is " + rewardPercentage);
+            arms.add(new BernoulliArm(rewardPercentage, rnd));
         }
 
         /**
@@ -61,13 +66,13 @@ public class AnnealingMultiEpsilonMain {
          */
         List<BanditAlgorithm> algos = new ArrayList<BanditAlgorithm>();
 
-        algos.add(new AnnealingEpsilonGreedy(0.1, arms.size(), rnd, "anneEpsi0.1_200arms"));
-        algos.add(new AnnealingEpsilonGreedy(0.3, arms.size(), rnd, "anneEpsi0.3_200arms"));
-        algos.add(new AnnealingEpsilonGreedy(0.5, arms.size(), rnd, "anneEpsi0.5_200arms"));
-        algos.add(new AnnealingEpsilonGreedy(0.7, arms.size(), rnd, "anneEpsi0.7_200arms"));
-        algos.add(new AnnealingEpsilonGreedy(0.9, arms.size(), rnd, "anneEpsi0.9_200arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.1, arms.size(), rnd, "annealEpsi0.1_" + armsNum + _sortArm(linearFactor) + "arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.3, arms.size(), rnd, "annealEpsi0.3_" + armsNum + _sortArm(linearFactor) + "arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.5, arms.size(), rnd, "annealEpsi0.5_" + armsNum + _sortArm(linearFactor) + "arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.7, arms.size(), rnd, "annealEpsi0.7_" + armsNum + _sortArm(linearFactor) + "arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.9, arms.size(), rnd, "annealEpsi0.9_" + armsNum + _sortArm(linearFactor) + "arms"));
 
-        String sFileName = "test/datafiles/" + Long.toString(seed) + ".csv";
+        String sFileName = "test/datafiles/" + Long.toString(seed) + "annealingMultiEpsi_" + armsNum + "arms.csv";
         System.out.println("file is " + sFileName);
         Writer wrrrr = new PrintWriter(new FileWriter(sFileName));
 
@@ -76,13 +81,34 @@ public class AnnealingMultiEpsilonMain {
         Map<String, TableRow> result = new HashMap<String, TableRow>();
 
         //result.put("bestArmPercentage", new TableRow());
-        //result.put("averageReward", new TableRow());
-        result.put("cumulativeReward", new TableRow());
+        result.put("averageReward", new TableRow());
+        //result.put("cumulativeReward", new TableRow());
 
         new MultiEpsilonCampaigner(stretcher).campaignAlgorithms(algos, arms, numSims, horizon, result);
 
         wrrrr.flush();
         wrrrr.close();
 
+    }
+
+    /**
+     * @param armIndex
+     * @param armsNum
+     * @param linearFactor - currently unsupported (linear distribution between 0.0 and 1.0)
+     * @return rewardPercentage of arms[armIndex]
+     */
+    private static double _rewardPercentage(Integer armIndex, Integer armsNum, Double linearFactor) {
+        double _delta = 1.0 / (armsNum.doubleValue() + 1.0);
+        return _delta * (armIndex + 1);
+    }
+
+    private static String _sortArm(Double linearFactor) {
+        if (linearFactor == 0) {
+            return "Linear";
+        } else if (linearFactor > 0) {
+            return "Prodigal";
+        } else {
+            return "Stingy";
+        }
     }
 }

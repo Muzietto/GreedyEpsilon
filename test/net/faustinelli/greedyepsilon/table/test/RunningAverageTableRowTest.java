@@ -17,15 +17,18 @@ public class RunningAverageTableRowTest {
 
     @Test
     public void testAdd() {
-        RunningAverageTableRow ratr = new RunningAverageTableRow("test_average", 5);
+        RunningAverageTableRow ratr = new RunningAverageTableRow("test_average", 4);
         ratr.add(0.0);
         assertEquals(new Double(0.0), ratr.get(0));
 
+        ratr.add(null);
+        assertEquals(new Double(0.0), ratr.get(1));
+
         ratr.add(1.0);
-        assertEquals(new Double(0.5), ratr.get(1));
+        assertEquals(new Double(0.5), ratr.get(2));
 
         ratr.add(2.0);
-        assertEquals(new Double(1.0), ratr.get(2));
+        assertEquals(new Double(1.0), ratr.get(3));
     }
 
     @Test
@@ -33,11 +36,12 @@ public class RunningAverageTableRowTest {
         TableRow<Double> tr = new TableRow<Double>("test_row", 5);
         tr.add(0.0);
         tr.add(1.0);
+        tr.add(null);
         tr.add(2.0);
 
         RunningAverageTableRow ratr = new RunningAverageTableRow(tr);
 
         assertEquals(new Double(0.5), ratr.get(1));
-        assertEquals(new Double(1.0), ratr.get(2));
+        assertEquals(new Double(1.0), ratr.get(3));
     }
 }

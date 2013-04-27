@@ -16,17 +16,20 @@ public class TableRowTest {
 
     @Test
     public void testDividedBy() {
-        TableRow<Integer> upper = new TableRow<Integer>("upper", 2);
+        TableRow<Integer> upper = new TableRow<Integer>("upper", 3);
         upper.add(0);
+        upper.add(null);
         upper.add(6);
-        TableRow<Integer> lower = new TableRow<Integer>("lower", 2);
+        TableRow<Integer> lower = new TableRow<Integer>("lower", 3);
         lower.add(6);
+        lower.add(null);
         lower.add(2);
 
         TableRow<Double> fractions = upper.dividedBy(lower);
         assertEquals("upper/lower", fractions.rowName());
         assertEquals(new Double(0.0), fractions.get(0));
-        assertEquals(new Double(3.0), fractions.get(1));
+        assertNull(fractions.get(1));
+        assertEquals(new Double(3.0), fractions.get(2));
     }
     @Test
     public void testDividedByWithZeroes() {
