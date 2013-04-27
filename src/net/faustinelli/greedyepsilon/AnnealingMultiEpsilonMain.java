@@ -4,7 +4,6 @@
  */
 package net.faustinelli.greedyepsilon;
 
-import net.faustinelli.greedyepsilon.components.AlgoInjectableStretcher;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,11 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import net.faustinelli.greedyepsilon.algo.AnnealingEpsilonGreedy;
 import net.faustinelli.greedyepsilon.components.MultiEpsilonCampaigner;
 import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
-import net.faustinelli.greedyepsilon.algo.EpsilonGreedy;
 import net.faustinelli.greedyepsilon.components.BanditStretcher;
-import net.faustinelli.greedyepsilon.algo.OptimisticEpsilonGreedy;
+import net.faustinelli.greedyepsilon.components.AnnealingInjectableStretcher;
 import net.faustinelli.greedyepsilon.components.BernoulliArm;
 import net.faustinelli.greedyepsilon.table.TableRow;
 
@@ -26,7 +25,7 @@ import net.faustinelli.greedyepsilon.table.TableRow;
  *
  * @author mfaustinelli
  */
-public class MultiEpsilonMain {
+public class AnnealingMultiEpsilonMain {
 
     public static void main(String[] args) throws IOException {
         long seed = System.nanoTime();
@@ -47,11 +46,11 @@ public class MultiEpsilonMain {
 
         List<BernoulliArm> arms = new ArrayList<BernoulliArm>();
 
-        for (int iii = 0; iii < 40; iii++) {
+        for (int iii = 0; iii < 2; iii++) {
             arms.add(new BernoulliArm(0.1, rnd));
-            arms.add(new BernoulliArm(0.1, rnd));
-            arms.add(new BernoulliArm(0.1, rnd));
-            arms.add(new BernoulliArm(0.1, rnd));
+            arms.add(new BernoulliArm(0.3, rnd));
+            arms.add(new BernoulliArm(0.5, rnd));
+            arms.add(new BernoulliArm(0.7, rnd));
             arms.add(new BernoulliArm(0.9, rnd));
         }
 
@@ -62,17 +61,17 @@ public class MultiEpsilonMain {
          */
         List<BanditAlgorithm> algos = new ArrayList<BanditAlgorithm>();
 
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "epsi0.1_200arms"));
-        algos.add(new EpsilonGreedy(0.3, arms.size(), rnd, "epsi0.3_200arms"));
-        algos.add(new EpsilonGreedy(0.5, arms.size(), rnd, "epsi0.5_200arms"));
-        algos.add(new EpsilonGreedy(0.7, arms.size(), rnd, "epsi0.7_200arms"));
-        algos.add(new EpsilonGreedy(0.9, arms.size(), rnd, "epsi0.9_200arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.1, arms.size(), rnd, "anneEpsi0.1_200arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.3, arms.size(), rnd, "anneEpsi0.3_200arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.5, arms.size(), rnd, "anneEpsi0.5_200arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.7, arms.size(), rnd, "anneEpsi0.7_200arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.9, arms.size(), rnd, "anneEpsi0.9_200arms"));
 
         String sFileName = "test/datafiles/" + Long.toString(seed) + ".csv";
         System.out.println("file is " + sFileName);
         Writer wrrrr = new PrintWriter(new FileWriter(sFileName));
 
-        BanditStretcher stretcher = new AlgoInjectableStretcher(wrrrr);
+        BanditStretcher stretcher = new AnnealingInjectableStretcher(wrrrr, horizon);
 
         Map<String, TableRow> result = new HashMap<String, TableRow>();
 

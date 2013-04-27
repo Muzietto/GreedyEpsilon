@@ -14,7 +14,7 @@ import java.io.Writer;
 import java.io.PrintWriter;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
-import net.faustinelli.greedyepsilon.algo.AlgoInjectableStretcher;
+import net.faustinelli.greedyepsilon.components.AlgoInjectableStretcher;
 import net.faustinelli.greedyepsilon.algo.EpsilonGreedy;
 import net.faustinelli.greedyepsilon.components.BernoulliArm;
 import org.junit.Test;

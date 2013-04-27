@@ -21,6 +21,8 @@ public interface BanditAlgorithm {
      */
     public Double ee_parameter();
 
+    public void ee_parameter(Double ee_parameter);
+
     public void identifier(String identifier);
 
     public String identifier();

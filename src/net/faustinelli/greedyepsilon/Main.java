@@ -4,7 +4,7 @@
  */
 package net.faustinelli.greedyepsilon;
 
-import net.faustinelli.greedyepsilon.algo.AlgoInjectableStretcher;
+import net.faustinelli.greedyepsilon.components.AlgoInjectableStretcher;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;

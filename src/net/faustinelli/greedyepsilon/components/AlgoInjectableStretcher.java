@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.faustinelli.greedyepsilon.algo;
+package net.faustinelli.greedyepsilon.components;
 
 import com.google.common.base.Function;
 import com.google.common.collect.DiscreteDomains;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import net.faustinelli.greedyepsilon.components.BernoulliArm;
+import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
 import net.faustinelli.greedyepsilon.table.RunningAverageTableRow;
 import net.faustinelli.greedyepsilon.table.TableRow;
 import net.faustinelli.greedyepsilon.table.TableRowsAverager;

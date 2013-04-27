@@ -18,12 +18,18 @@ import java.util.Random;
  */
 public class EpsilonGreedy implements BanditAlgorithm {
 
-    private String _identifier = null;
-    private final Double _epsilon;
-    private final Random _randomizer;
-    private final List<Integer> _counts;
-    private final List<Double> _values;
-    private final Integer _armsNo;
+    protected String _identifier = null;
+    protected Double _epsilon;
+    protected final Random _randomizer;
+    /**
+     * _counts[i] = number of times arms[i] has been drawn
+     */
+    protected final List<Integer> _counts;
+    /**
+     * _values[i] = average reward taken from arms[i]
+     */
+    protected final List<Double> _values;
+    protected final Integer _armsNo;
 
     public EpsilonGreedy(Double epsilon, Integer armsNo, Random randomizer) {
         _epsilon = epsilon;
@@ -43,8 +49,17 @@ public class EpsilonGreedy implements BanditAlgorithm {
     }
 
     /**
+     * it is not possible to modify the ee_parameter
+     * of a standard epsilon greedy algorithm.
+     * Only subclasses my do that.
+     * @param ee_parameter
+     */
+    public void ee_parameter(Double ee_parameter) {
+    }
+
+    /**
      * standard Epsilon Greedy algorithm is
-     * extremely pessimistic
+     * extremely pessimistic about unproven arms
      */
     public void initialize() {
         this.initialize(new Double(0.0));
@@ -77,7 +92,6 @@ public class EpsilonGreedy implements BanditAlgorithm {
         Integer cc = _counts.get(armIndex);
         Double newValue = _values.get(armIndex) * (cc - 1) / cc + reward * 1 / cc;
         _values.set(armIndex, newValue);
-
     }
 
     public String identifier() {
