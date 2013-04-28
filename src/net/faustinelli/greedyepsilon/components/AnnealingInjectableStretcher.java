@@ -13,7 +13,7 @@ import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
 import net.faustinelli.greedyepsilon.table.TableRow;
 
 /**
- *
+ * This class can also test standard EpsilonGreedy.java algorithms
  * @author Marco Faustinelli <contatti@faustinelli.net>
  */
 public class AnnealingInjectableStretcher extends AlgoInjectableStretcher implements BanditStretcher {
@@ -27,7 +27,9 @@ public class AnnealingInjectableStretcher extends AlgoInjectableStretcher implem
 
     @Override
     public void testAlgorithm(BanditAlgorithm algo, List<BernoulliArm> arms, Integer numSims, Integer horizon, Map<String, TableRow> result) throws IOException {
-        ((AnnealingEpsilonGreedy) algo).horizon(_horizon);
+        if (algo instanceof AnnealingEpsilonGreedy) {
+            ((AnnealingEpsilonGreedy) algo).horizon(_horizon);
+        }
         super.testAlgorithm(algo, arms, numSims, horizon, result);
     }
 }

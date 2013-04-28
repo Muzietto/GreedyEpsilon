@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import net.faustinelli.greedyepsilon.algo.AnnealingEpsilonGreedy;
 import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
 import net.faustinelli.greedyepsilon.table.TableRow;
 
@@ -28,9 +29,9 @@ public class MultiEpsilonCampaigner implements BanditCampaigner {
         // prepare map for the calculations
         Map<String, TableRow> accumulator = new HashMap<String, TableRow>();
 
-        Iterator<BanditAlgorithm> itt = algos.iterator();
-        while (itt.hasNext()) {
-            BanditAlgorithm algo = itt.next();
+        Iterator<BanditAlgorithm> algosIte = algos.iterator();
+        while (algosIte.hasNext()) {
+            BanditAlgorithm algo = algosIte.next();
             String algIde = algo.identifier();
 
             // prepare Map for the stretcher to process
@@ -53,7 +54,9 @@ public class MultiEpsilonCampaigner implements BanditCampaigner {
                 }
             }
 
-            System.out.println("ee_parameter is " + algo.ee_parameter());
+            String msg = (algo instanceof AnnealingEpsilonGreedy) ? "annealing from " : "standard ";
+
+            System.out.println(msg + "ee_parameter " + algo.ee_parameter());
             _stretcher.testAlgorithm(algo, arms, numSims, horizon, specificResult);
 
             // filter away results and store those requested by the caller
@@ -62,7 +65,7 @@ public class MultiEpsilonCampaigner implements BanditCampaigner {
                 String key = keys.next();
                 if (specificResult.get(key) != null) {
                     TableRow tr = specificResult.get(key);
-                    accumulator.put(tr.algoIdentifier()+tr.rowName(), tr);
+                    accumulator.put(tr.algoIdentifier() + tr.rowName(), tr);
                 } else {
                     throw new RuntimeException("cannot ask result " + key);
                 }

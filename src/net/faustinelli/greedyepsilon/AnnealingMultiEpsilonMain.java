@@ -31,7 +31,7 @@ public class AnnealingMultiEpsilonMain {
         long seed = System.nanoTime();
         Random rnd = new Random(seed);
 
-        Integer armsNum = 200;
+        Integer armsNum = 2;
         /**
          * linearFactor = 0  --> linear distribution of arms' reward percentage
          * linearFactor = - MAX_INTEGER --> almost all arms are stingy
@@ -80,8 +80,8 @@ public class AnnealingMultiEpsilonMain {
 
         Map<String, TableRow> result = new HashMap<String, TableRow>();
 
-        //result.put("bestArmPercentage", new TableRow());
-        result.put("averageReward", new TableRow());
+        result.put("bestArmPercentage", new TableRow());
+        //result.put("averageReward", new TableRow());
         //result.put("cumulativeReward", new TableRow());
 
         new MultiEpsilonCampaigner(stretcher).campaignAlgorithms(algos, arms, numSims, horizon, result);

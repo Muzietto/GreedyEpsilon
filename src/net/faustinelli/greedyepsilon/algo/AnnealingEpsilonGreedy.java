@@ -18,14 +18,25 @@ public class AnnealingEpsilonGreedy extends EpsilonGreedy implements BanditAlgor
 
     private Integer _horizon;
     private Double _eeDelta;
+    private final Double _startEpsilon;
 
     public AnnealingEpsilonGreedy(Double startEpsilon, Integer armsNo, Random randomizer, String identifier) {
         super(startEpsilon, armsNo, randomizer, identifier);
+        _startEpsilon = startEpsilon;
     }
+
+    @Override
+    public void initialize() {
+        _epsilon = _startEpsilon;
+        super.initialize();
+    }
+
+
 
     public void horizon(Integer horizon) {
         _horizon = horizon;
         _eeDelta = _epsilon / horizon.doubleValue();
+        //System.out.println("_eeDelta=" + _eeDelta);
     }
 
     @Override
@@ -33,6 +44,6 @@ public class AnnealingEpsilonGreedy extends EpsilonGreedy implements BanditAlgor
         super.update(armIndex, reward);
         // decrement epsilon -= f(_horizon)
         _epsilon -= _eeDelta;
-        //System.out.println("ee=" + _epsilon);
+        //System.out.println("annealing to ee=" + _epsilon);
     }
 }
