@@ -66,11 +66,11 @@ public class AnnealingMultiEpsilonMain {
          */
         List<BanditAlgorithm> algos = new ArrayList<BanditAlgorithm>();
 
-        algos.add(new AnnealingEpsilonGreedy(0.1, arms.size(), rnd, "annealEpsi0.1_" + armsNum + _sortArm(linearFactor) + "arms"));
-        algos.add(new AnnealingEpsilonGreedy(0.3, arms.size(), rnd, "annealEpsi0.3_" + armsNum + _sortArm(linearFactor) + "arms"));
-        algos.add(new AnnealingEpsilonGreedy(0.5, arms.size(), rnd, "annealEpsi0.5_" + armsNum + _sortArm(linearFactor) + "arms"));
-        algos.add(new AnnealingEpsilonGreedy(0.7, arms.size(), rnd, "annealEpsi0.7_" + armsNum + _sortArm(linearFactor) + "arms"));
-        algos.add(new AnnealingEpsilonGreedy(0.9, arms.size(), rnd, "annealEpsi0.9_" + armsNum + _sortArm(linearFactor) + "arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.1, arms.size(), rnd, "annealEpsi0.1_" + armsNum + _armType(linearFactor) + "arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.3, arms.size(), rnd, "annealEpsi0.3_" + armsNum + _armType(linearFactor) + "arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.5, arms.size(), rnd, "annealEpsi0.5_" + armsNum + _armType(linearFactor) + "arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.7, arms.size(), rnd, "annealEpsi0.7_" + armsNum + _armType(linearFactor) + "arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.9, arms.size(), rnd, "annealEpsi0.9_" + armsNum + _armType(linearFactor) + "arms"));
 
         String sFileName = "test/datafiles/" + Long.toString(seed) + "annealingMultiEpsi_" + armsNum + "arms.csv";
         System.out.println("file is " + sFileName);
@@ -102,7 +102,7 @@ public class AnnealingMultiEpsilonMain {
         return _delta * (armIndex + 1);
     }
 
-    private static String _sortArm(Double linearFactor) {
+    private static String _armType(Double linearFactor) {
         if (linearFactor == 0) {
             return "Linear";
         } else if (linearFactor > 0) {

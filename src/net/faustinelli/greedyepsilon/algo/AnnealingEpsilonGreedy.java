@@ -31,8 +31,6 @@ public class AnnealingEpsilonGreedy extends EpsilonGreedy implements BanditAlgor
         super.initialize();
     }
 
-
-
     public void horizon(Integer horizon) {
         _horizon = horizon;
         _eeDelta = _epsilon / horizon.doubleValue();
@@ -43,7 +41,17 @@ public class AnnealingEpsilonGreedy extends EpsilonGreedy implements BanditAlgor
     public void update(Integer armIndex, Double reward) {
         super.update(armIndex, reward);
         // decrement epsilon -= f(_horizon)
-        _epsilon -= _eeDelta;
+        _epsilon -= _eeDelta;  // linear annealing
         //System.out.println("annealing to ee=" + _epsilon);
+    }
+
+    public static String _annealingType (Double linearFactor) {
+        if (linearFactor == 0) {
+            return "Linear";
+        } else if (linearFactor > 0) {
+            return "Exploity";
+        } else {
+            return "Explory";
+        }
     }
 }

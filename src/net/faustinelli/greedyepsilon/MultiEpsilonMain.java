@@ -32,9 +32,9 @@ public class MultiEpsilonMain {
         long seed = System.nanoTime();
         Random rnd = new Random(seed);
 
-        String sought = "bestArmPercentage";
+        //String sought = "bestArmPercentage";
         //String sought = "averageReward";
-        //String sought = "cumulativeReward";
+        String sought = "cumulativeReward";
 
         Integer armsNum = 200;
         /**
@@ -71,14 +71,15 @@ public class MultiEpsilonMain {
          */
         List<BanditAlgorithm> algos = new ArrayList<BanditAlgorithm>();
 
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "stdEpsi0.1_" + armsNum + _sortArm(linearFactor) + "Arms"));
-        algos.add(new EpsilonGreedy(0.3, arms.size(), rnd, "stdEpsi0.3_" + armsNum + _sortArm(linearFactor) + "Arms"));
-        algos.add(new EpsilonGreedy(0.5, arms.size(), rnd, "stdEpsi0.5_" + armsNum + _sortArm(linearFactor) + "Arms"));
-        algos.add(new EpsilonGreedy(0.7, arms.size(), rnd, "stdEpsi0.7_" + armsNum + _sortArm(linearFactor) + "Arms"));
-        algos.add(new EpsilonGreedy(0.9, arms.size(), rnd, "stdEpsi0.9_" + armsNum + _sortArm(linearFactor) + "Arms"));
-        algos.add(new AnnealingEpsilonGreedy(1.0, arms.size(), rnd, "annealEpsi1.0_" + armsNum + _sortArm(linearFactor) + "Arms"));
+        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "stdEpsi0.1_" + armsNum + _armType(linearFactor) + "Arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.1, arms.size(), rnd, "annealEpsi0.1_" + armsNum + _armType(linearFactor) + "Arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.3, arms.size(), rnd, "annealEpsi0.3_" + armsNum + _armType(linearFactor) + "Arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.5, arms.size(), rnd, "annealEpsi0.5_" + armsNum + _armType(linearFactor) + "Arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.7, arms.size(), rnd, "annealEpsi0.7_" + armsNum + _armType(linearFactor) + "Arms"));
+        algos.add(new AnnealingEpsilonGreedy(0.9, arms.size(), rnd, "annealEpsi0.9_" + armsNum + _armType(linearFactor) + "Arms"));
+        algos.add(new AnnealingEpsilonGreedy(1.0, arms.size(), rnd, "annealEpsi1.0_" + armsNum + _armType(linearFactor) + "Arms"));
 
-        String sFileName = "test/datafiles/" + Long.toString(seed) + "_" + sought + "_stdMultiEpsiVsAnneal1.0_" + armsNum + _sortArm(linearFactor) + "Arms.csv";
+        String sFileName = "test/datafiles/" + Long.toString(seed) + "_" + sought + "_stdEpsi0.1VsMultiAnneal_" + armsNum + _armType(linearFactor) + "Arms.csv";
         System.out.println("file is " + sFileName);
         Writer wrrrr = new PrintWriter(new FileWriter(sFileName));
 
@@ -107,7 +108,7 @@ public class MultiEpsilonMain {
         return _delta * (armIndex + 1);
     }
 
-    private static String _sortArm(Double linearFactor) {
+    private static String _armType(Double linearFactor) {
         if (linearFactor == 0) {
             return "Linear";
         } else if (linearFactor > 0) {
