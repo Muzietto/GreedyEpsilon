@@ -26,4 +26,6 @@ public interface BanditAlgorithm {
     public void identifier(String identifier);
 
     public String identifier();
+
+    public String logMessage();
 }

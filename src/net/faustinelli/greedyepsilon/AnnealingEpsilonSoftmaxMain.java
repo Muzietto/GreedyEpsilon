@@ -17,14 +17,27 @@ import net.faustinelli.greedyepsilon.algo.AnnealingEpsilonGreedy;
 import net.faustinelli.greedyepsilon.components.MultiEpsilonCampaigner;
 import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
 import net.faustinelli.greedyepsilon.algo.EpsilonGreedy;
-import net.faustinelli.greedyepsilon.algo.NaiveSoftmax;
+import net.faustinelli.greedyepsilon.algo.Softmax;
 import net.faustinelli.greedyepsilon.components.AnnealingInjectableStretcher;
+import net.faustinelli.greedyepsilon.components.ArmsPreparator;
 import net.faustinelli.greedyepsilon.components.BanditStretcher;
 import net.faustinelli.greedyepsilon.components.BernoulliArm;
+import net.faustinelli.greedyepsilon.components.LinearFactorArmsPreparator;
+import net.faustinelli.greedyepsilon.components.StingyArmsPreparator;
 import net.faustinelli.greedyepsilon.table.TableRow;
 
 /**
- * This class generates arms with linear distribution
+ * This class may test:
+ * - one or more algorithm performance aspects
+ *  + accuracy (best arm percentage)
+ *  + average reward
+ *  + cumulative reward
+ * - one or more different algorithms
+ *  + any implementation of interface BanditAlgorithm
+ * - one or more explore-exploit parameters per algorithm
+ * - one or more different arms preparator:
+ *  + any implementation of interface ArmsPreparator
+ * 
  * @author Marco Faustinelli <contatti@faustinelli.net>
  */
 public class AnnealingEpsilonSoftmaxMain {
@@ -33,46 +46,51 @@ public class AnnealingEpsilonSoftmaxMain {
         long seed = System.nanoTime();
         Random rnd = new Random(seed);
 
-        String sought = "bestArmPercentage";
-        //String sought = "averageReward";
-        //String sought = "cumulativeReward";
+        // this string gets into the filename!!!
+        String campaignSummary = "EpsiVsSoftmax";
 
-        Integer armsNum = 200;
-        /**
-         * linearFactor = 0  --> linear distribution of arms' reward percentage
-         * linearFactor = - MAX_INTEGER --> almost all arms are stingy
-         * linearFactor = + MAX_INTEGER --> almost all arms are prodigal
-         */
-        Double linearFactor = 0.0;
-        Integer numSims = 2000;
+        // uncomment here at least one of the following strings
+        //String sought = "bestArmPercentage";
+        //String sought = "averageReward";
+        String sought = "cumulativeReward";
+
+        Integer armsNum = 5;
+        Integer numSims = 5000;
         Integer horizon = 500;
 
-        List<BernoulliArm> arms = new ArrayList<BernoulliArm>();
+        // single arms preparator
+//        ArmsPreparator armsPreparator = new LinearFactorArmsPreparator();
+        ArmsPreparator armsPreparator = new StingyArmsPreparator();
 
-        for (int armIndex = 0; armIndex < armsNum; armIndex++) {
-            double rewardPercentage = _rewardPercentage(armIndex, armsNum, linearFactor);
-            System.out.println("arm rewardPercentage is " + rewardPercentage);
-            arms.add(new BernoulliArm(rewardPercentage, rnd));
-        }
+        List<BernoulliArm> arms = armsPreparator.prepareArms(armsNum, rnd);
 
         /**
-         * epsilon = 1.0 --> always explore
-         * epsilon = 0.0 --> always exploit
+         * epsilon = 1.0, tau = infinite --> always explore
+         * epsilon = 0.0, tau = 0.0      --> always exploit
          * @author Marco Faustinelli <contatti@faustinelli.net>
          */
         List<BanditAlgorithm> algos = new ArrayList<BanditAlgorithm>();
 
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, "stdEpsi0.1_" + armsNum + _armType(linearFactor) + "Arms"));
-        //algos.add(new AnnealingEpsilonGreedy(0.1, arms.size(), rnd, "annealEpsi0.1_" + armsNum + _armType(linearFactor) + "Arms"));
-        algos.add(new AnnealingEpsilonGreedy(0.3, arms.size(), rnd, "annealEpsi0.3_" + armsNum + _armType(linearFactor) + "Arms"));
-        //algos.add(new AnnealingEpsilonGreedy(0.5, arms.size(), rnd, "annealEpsi0.5_" + armsNum + _armType(linearFactor) + "Arms"));
-        algos.add(new NaiveSoftmax(null, arms.size(), rnd, "naiveSoftmax_" + armsNum + _armType(linearFactor) + "Arms"));
+        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, algoMessage("stdEpsi0.1", armsNum, armsPreparator)));
+        algos.add(new EpsilonGreedy(0.2, arms.size(), rnd, algoMessage("stdEpsi0.2", armsNum, armsPreparator)));
+        //algos.add(new AnnealingEpsilonGreedy(0.1, arms.size(), rnd, algoMessage("annealEpsi0.1", armsNum, armsPreparator)));
+        //algos.add(new AnnealingEpsilonGreedy(0.3, arms.size(), rnd, algoMessage("annealEpsi0.3", armsNum, armsPreparator)));
+        //algos.add(new AnnealingEpsilonGreedy(0.5, arms.size(), rnd, algoMessage("annealEpsi0.5", armsNum, armsPreparator)));
+        algos.add(new Softmax(0.1, arms.size(), rnd, algoMessage("T0.1Softmax", armsNum, armsPreparator)));
+        algos.add(new Softmax(0.2, arms.size(), rnd, algoMessage("T0.2Softmax", armsNum, armsPreparator)));
+        //algos.add(new Softmax(0.3, arms.size(), rnd, algoMessage("T0.3Softmax", armsNum, armsPreparator)));
+        //algos.add(new Softmax(0.4, arms.size(), rnd, algoMessage("T0.4Softmax", armsNum, armsPreparator)));
+        //algos.add(new Softmax(0.5, arms.size(), rnd, algoMessage("T0.5Softmax", armsNum, armsPreparator)));
 
-        String sFileName = "test/datafiles/" + Long.toString(seed) + "_" + sought + "_stdEpsi0.1VsAnnealEpsiVsSoftmax_" + armsNum + _armType(linearFactor) + "Arms.csv";
+        String sFileName = "test/datafiles/" + Long.toString(seed) + "_";
+        sFileName += numSims + "sims" + "X" + horizon + "-";
+        sFileName += sought + "_" + campaignSummary + "_" + armsNum + "_";
+        sFileName += armsPreparator.preparatorType() + "Arms.csv";
+
         System.out.println("file is " + sFileName);
         Writer wrrrr = new PrintWriter(new FileWriter(sFileName));
 
-        // this stretcher handles also standard EpsilonGreedy.java algorithms
+        // NB - this specific stretcher handles all sorts of bandit algorithms (crf. its javadoc)
         BanditStretcher stretcher = new AnnealingInjectableStretcher(wrrrr, horizon);
 
         Map<String, TableRow> result = new HashMap<String, TableRow>();
@@ -83,27 +101,9 @@ public class AnnealingEpsilonSoftmaxMain {
 
         wrrrr.flush();
         wrrrr.close();
-
     }
 
-    /**
-     * @param armIndex
-     * @param armsNum
-     * @param linearFactor - currently unsupported (linear distribution between 0.0 and 1.0)
-     * @return rewardPercentage of arms[armIndex]
-     */
-    private static double _rewardPercentage(Integer armIndex, Integer armsNum, Double linearFactor) {
-        double _delta = 1.0 / (armsNum.doubleValue() + 1.0);
-        return _delta * (armIndex + 1);
-    }
-
-    private static String _armType(Double linearFactor) {
-        if (linearFactor == 0) {
-            return "Linear";
-        } else if (linearFactor > 0) {
-            return "Prodigal";
-        } else {
-            return "Stingy";
-        }
+    private static String algoMessage(String algoMsg, Integer armsNum, ArmsPreparator armsPreparator) {
+        return algoMsg + "_" + armsNum + "_" + armsPreparator.preparatorType() + "Arms";
     }
 }

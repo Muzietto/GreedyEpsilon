@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import net.faustinelli.greedyepsilon.algo.AnnealingEpsilonGreedy;
 import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
 import net.faustinelli.greedyepsilon.table.TableRow;
 
@@ -54,9 +53,9 @@ public class MultiEpsilonCampaigner implements BanditCampaigner {
                 }
             }
 
-            String msg = (algo instanceof AnnealingEpsilonGreedy) ? "annealing from " : "standard ";
+            String msg = algo.logMessage();
 
-            System.out.println(msg + "ee_parameter " + algo.ee_parameter());
+            System.out.println(msg);
             _stretcher.testAlgorithm(algo, arms, numSims, horizon, specificResult);
 
             // filter away results and store those requested by the caller

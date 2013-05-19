@@ -11,12 +11,13 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * epsilon = 1.0 --> always explore
- * epsilon = 0.0 --> always exploit
- *
+ * Actually its name should be TEMPERATURE-NAIVE!!!
+ * temperature = infinite --> always explore
+ * temperature = 0.0      --> always exploit
+ * 
  * @author Marco Faustinelli <contatti@faustinelli.net>
  */
-public class NaiveSoftmax implements BanditAlgorithm {
+public class Softmax implements BanditAlgorithm {
 
     protected String _identifier = null;
     protected Double _temperature;
@@ -32,7 +33,7 @@ public class NaiveSoftmax implements BanditAlgorithm {
     protected final List<Double> _values;
     protected final Integer _armsNo;
 
-    public NaiveSoftmax(Double temperature, Integer armsNo, Random randomizer) {
+    public Softmax(Double temperature, Integer armsNo, Random randomizer) {
         _temperature = temperature;
         _randomizer = (randomizer != null) ? randomizer : new Random(System.nanoTime());
         _armsNo = armsNo;
@@ -40,7 +41,7 @@ public class NaiveSoftmax implements BanditAlgorithm {
         _values = new ArrayList<Double>(armsNo);
     }
 
-    public NaiveSoftmax(Double epsilon, Integer armsNo, Random randomizer, String identifier) {
+    public Softmax(Double epsilon, Integer armsNo, Random randomizer, String identifier) {
         this(epsilon, armsNo, randomizer);
         _identifier = identifier;
     }
@@ -65,7 +66,7 @@ public class NaiveSoftmax implements BanditAlgorithm {
      * optimism = 1.0 --> extreme faith about unknown arms
      */
     public void initialize() {
-        final Double optimismRate = new Double(1.0);
+        final Double optimismRate = new Double(0.0);
         _counts.clear();
         _values.clear();
 
@@ -78,11 +79,11 @@ public class NaiveSoftmax implements BanditAlgorithm {
     public Integer selectArm() {
         Double totalValue = 0.0;
         for (Double dd : _values) {
-            totalValue += dd;
+            totalValue += Math.exp(dd / _temperature);
         }
         ArrayList<Double> probs = new ArrayList<Double>();
         for (Double dd : _values) {
-            probs.add(dd / totalValue);
+            probs.add(Math.exp(dd / _temperature) / totalValue);
         }
         return categoricalDraw(probs);
     }
@@ -117,7 +118,6 @@ public class NaiveSoftmax implements BanditAlgorithm {
     }
 
     public String logMessage() {
-        return "Naive Softmax - temperature is" + ee_parameter();
-
+        return "Standard Softmax - temperature=" + ee_parameter();
     }
 }

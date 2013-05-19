@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * Actually its name should be EPSILON-NAIVE!!
  * epsilon = 1.0 --> always explore
  * epsilon = 0.0 --> always exploit
  *
@@ -101,5 +102,9 @@ public class EpsilonGreedy implements BanditAlgorithm {
 
     public void identifier(String identifier) {
         _identifier = identifier;
+    }
+
+    public String logMessage() {
+        return "Standard EpsilonGreedy epsilon=" + ee_parameter();
     }
 }

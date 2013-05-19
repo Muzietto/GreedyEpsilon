@@ -45,7 +45,7 @@ public class AnnealingEpsilonGreedy extends EpsilonGreedy implements BanditAlgor
         //System.out.println("annealing to ee=" + _epsilon);
     }
 
-    public static String _annealingType (Double linearFactor) {
+    public static String _annealingType(Double linearFactor) {
         if (linearFactor == 0) {
             return "Linear";
         } else if (linearFactor > 0) {
@@ -53,5 +53,9 @@ public class AnnealingEpsilonGreedy extends EpsilonGreedy implements BanditAlgor
         } else {
             return "Explory";
         }
+    }
+
+    public String logMessage() {
+        return "EpsilonGreedy annealing from " + ee_parameter();
     }
 }

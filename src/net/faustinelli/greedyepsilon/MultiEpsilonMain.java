@@ -36,7 +36,7 @@ public class MultiEpsilonMain {
         //String sought = "averageReward";
         String sought = "cumulativeReward";
 
-        Integer armsNum = 200;
+        Integer armsNum = 50;
         /**
          * linearFactor = 0  --> linear distribution of arms' reward percentage
          * linearFactor = - MAX_INTEGER --> almost all arms are stingy
@@ -45,16 +45,6 @@ public class MultiEpsilonMain {
         Double linearFactor = 0.0;
         Integer numSims = 2000;
         Integer horizon = 500;
-
-        /*
-        List<BernoulliArm> arms_ref = Arrays.asList(new BernoulliArm[]{
-        new BernoulliArm(0.1, rnd),
-        new BernoulliArm(0.3, rnd),
-        new BernoulliArm(0.5, rnd),
-        new BernoulliArm(0.7, rnd),
-        new BernoulliArm(0.9, rnd)
-        });
-         */
 
         List<BernoulliArm> arms = new ArrayList<BernoulliArm>();
 

@@ -21,7 +21,11 @@ import net.faustinelli.greedyepsilon.table.RunningAverageTableRow;
 import net.faustinelli.greedyepsilon.table.TableRow;
 import net.faustinelli.greedyepsilon.table.TableRowsAverager;
 
-/** Allows the following results:
+/** This is the real workhorse of the whole codebase.
+ * It exercises (I mean it 'stretches' them to their limit) many sorts of algorithms
+ * invoking them and organising tiehr outputs in a consistent manner.
+ *
+ * It performs data collection for the following results:
  * - "averageReward"
  * - "cumulativeReward"
  * - "bestArmPercentage"
