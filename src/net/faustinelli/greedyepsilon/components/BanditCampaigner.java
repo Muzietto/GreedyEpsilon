@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
-import net.faustinelli.greedyepsilon.components.BernoulliArm;
 import net.faustinelli.greedyepsilon.table.TableRow;
 
 /**

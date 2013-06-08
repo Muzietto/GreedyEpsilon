@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import net.faustinelli.greedyepsilon.algo.AnnealingEpsilonGreedy;
 import net.faustinelli.greedyepsilon.components.MultiEpsilonCampaigner;
 import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
 import net.faustinelli.greedyepsilon.algo.EpsilonGreedy;
@@ -22,7 +21,6 @@ import net.faustinelli.greedyepsilon.components.AnnealingInjectableStretcher;
 import net.faustinelli.greedyepsilon.components.ArmsPreparator;
 import net.faustinelli.greedyepsilon.components.BanditStretcher;
 import net.faustinelli.greedyepsilon.components.BernoulliArm;
-import net.faustinelli.greedyepsilon.components.LinearFactorArmsPreparator;
 import net.faustinelli.greedyepsilon.components.StingyArmsPreparator;
 import net.faustinelli.greedyepsilon.table.TableRow;
 

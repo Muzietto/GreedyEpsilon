@@ -40,7 +40,12 @@ public class AlgoInjectableStretcher implements BanditStretcher {
         _writer = writer;
     }
 
-    public void testAlgorithm(BanditAlgorithm algo, List<BernoulliArm> arms, Integer numSims, Integer horizon, Map<String, TableRow> result) throws IOException {
+    public void testAlgorithm(
+            BanditAlgorithm algo,
+            List<BernoulliArm> arms,
+            Integer numSims,
+            Integer horizon,
+            Map<String, TableRow> result) throws IOException {
 
         List<TableRow<Double>> averageRewardData = new ArrayList<TableRow<Double>>();
         List<TableRow<Double>> cumRewardData = new ArrayList<TableRow<Double>>();
@@ -91,6 +96,7 @@ public class AlgoInjectableStretcher implements BanditStretcher {
                 } else {
                     cumReward.add(cumReward.get(curDraw - 1) + curReward);
                 }
+                // CRUCIAL MOMENT! update data available to the algorithm
                 algo.update(currArm, curReward);
 
             }  // end single draw
