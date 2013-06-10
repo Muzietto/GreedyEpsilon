@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package net.faustinelli.greedyepsilon.components;
 
 import java.io.IOException;
@@ -17,6 +16,10 @@ import net.faustinelli.greedyepsilon.table.TableRow;
  */
 public interface BanditStretcher {
 
-    void testAlgorithm(BanditAlgorithm algo, List<BernoulliArm> arms, Integer numSims, Integer horizon, Map<String, TableRow> result) throws IOException;
-
+    void testAlgorithm(
+            BanditAlgorithm algo,
+            List<BernoulliArm> arms,
+            Integer numSims,
+            Integer horizon,
+            Map<String, TableRow> result) throws IOException;
 }

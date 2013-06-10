@@ -14,7 +14,7 @@ import org.apache.commons.lang3.mutable.MutableDouble;
  */
 public class ResultsBuffer extends CircularFifoBuffer {
 
-    /* package*/ MutableDouble _average = new MutableDouble();
+    /* package */ MutableDouble _average = new MutableDouble(Double.NaN);
 
     public ResultsBuffer(Integer i) {
         super(i);
@@ -30,6 +30,12 @@ public class ResultsBuffer extends CircularFifoBuffer {
         boolean result = super.add(obj);
         _computeAverage();
         return result;
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        _average.setValue(Double.NaN);
     }
 
     private void _computeAverage() {

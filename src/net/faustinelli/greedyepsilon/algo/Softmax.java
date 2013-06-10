@@ -9,6 +9,8 @@ import com.google.common.collect.Range;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import net.faustinelli.greedyepsilon.components.ValuesArrayListFactory;
+import net.faustinelli.greedyepsilon.components.ValuesListFactory;
 
 /**
  * Actually its name should be TEMPERATURE-NAIVE!!!
@@ -33,16 +35,21 @@ public class Softmax implements BanditAlgorithm {
     protected final List<Double> _values;
     protected final Integer _armsNo;
 
-    public Softmax(Double temperature, Integer armsNo, Random randomizer) {
+    public Softmax(Double temperature, Integer armsNo, Random randomizer, ValuesListFactory factory) {
         _temperature = temperature;
         _randomizer = (randomizer != null) ? randomizer : new Random(System.nanoTime());
         _armsNo = armsNo;
         _counts = new ArrayList<Integer>(armsNo);
-        _values = new ArrayList<Double>(armsNo);
+        _values = factory.valuesList(armsNo);
     }
 
-    public Softmax(Double epsilon, Integer armsNo, Random randomizer, String identifier) {
-        this(epsilon, armsNo, randomizer);
+    public Softmax(Double temperature, Integer armsNo, Random randomizer, ValuesListFactory factory, String identifier) {
+        this(temperature, armsNo, randomizer, factory);
+        _identifier = identifier;
+    }
+
+    public Softmax(Double temperature, Integer armsNo, Random randomizer, String identifier) {
+        this(temperature, armsNo, randomizer, new ValuesArrayListFactory());
         _identifier = identifier;
     }
 
@@ -71,8 +78,8 @@ public class Softmax implements BanditAlgorithm {
         _values.clear();
 
         for (Integer index : Range.closed(0, _armsNo - 1).asSet(DiscreteDomains.integers())) {
-            _counts.add(optimismRate.intValue());
-            _values.add(optimismRate);
+            _counts.add(index, optimismRate.intValue());
+            _values.add(index, optimismRate);
         }
     }
 

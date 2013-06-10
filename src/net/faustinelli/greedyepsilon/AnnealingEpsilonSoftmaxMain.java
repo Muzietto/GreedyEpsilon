@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Random;
 import net.faustinelli.greedyepsilon.components.MultiEpsilonCampaigner;
 import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
+import net.faustinelli.greedyepsilon.algo.BufferedEpsilonGreedy;
+import net.faustinelli.greedyepsilon.algo.BufferedSoftmax;
 import net.faustinelli.greedyepsilon.algo.EpsilonGreedy;
 import net.faustinelli.greedyepsilon.algo.Softmax;
 import net.faustinelli.greedyepsilon.components.AnnealingInjectableStretcher;
@@ -45,16 +47,17 @@ public class AnnealingEpsilonSoftmaxMain {
         Random rnd = new Random(seed);
 
         // this string gets into the filename!!!
-        String campaignSummary = "EpsiVsSoftmax";
+        String campaignSummary = "BufferedSoftmaxVsSoftmax";
 
         // uncomment here at least one of the following strings
-        //String sought = "bestArmPercentage";
+        String sought = "bestArmPercentage";
         //String sought = "averageReward";
-        String sought = "cumulativeReward";
+        //String sought = "cumulativeReward";
 
         Integer armsNum = 5;
         Integer numSims = 5000;
         Integer horizon = 500;
+        Integer bufferSize = 100;
 
         // single arms preparator
 //        ArmsPreparator armsPreparator = new LinearFactorArmsPreparator();
@@ -69,16 +72,22 @@ public class AnnealingEpsilonSoftmaxMain {
          */
         List<BanditAlgorithm> algos = new ArrayList<BanditAlgorithm>();
 
-        algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, algoMessage("stdEpsi0.1", armsNum, armsPreparator)));
-        algos.add(new EpsilonGreedy(0.2, arms.size(), rnd, algoMessage("stdEpsi0.2", armsNum, armsPreparator)));
+        //algos.add(new EpsilonGreedy(0.1, arms.size(), rnd, algoMessage("stdEpsi0.1", armsNum, armsPreparator)));
+        //algos.add(new BufferedEpsilonGreedy(0.1, arms.size(), bufferSize, rnd, algoMessage("buffEpsi0.1", armsNum, armsPreparator)));
+        //algos.add(new EpsilonGreedy(0.5, arms.size(), rnd, algoMessage("stdEpsi0.5", armsNum, armsPreparator)));
+        //algos.add(new BufferedEpsilonGreedy(0.5, arms.size(), bufferSize, rnd, algoMessage("buffEpsi0.5", armsNum, armsPreparator)));
         //algos.add(new AnnealingEpsilonGreedy(0.1, arms.size(), rnd, algoMessage("annealEpsi0.1", armsNum, armsPreparator)));
         //algos.add(new AnnealingEpsilonGreedy(0.3, arms.size(), rnd, algoMessage("annealEpsi0.3", armsNum, armsPreparator)));
         //algos.add(new AnnealingEpsilonGreedy(0.5, arms.size(), rnd, algoMessage("annealEpsi0.5", armsNum, armsPreparator)));
-        algos.add(new Softmax(0.1, arms.size(), rnd, algoMessage("T0.1Softmax", armsNum, armsPreparator)));
-        algos.add(new Softmax(0.2, arms.size(), rnd, algoMessage("T0.2Softmax", armsNum, armsPreparator)));
+        //algos.add(new Softmax(0.1, arms.size(), rnd, algoMessage("T0.1Softmax", armsNum, armsPreparator)));
+        //algos.add(new Softmax(0.2, arms.size(), rnd, algoMessage("T0.2Softmax", armsNum, armsPreparator)));
         //algos.add(new Softmax(0.3, arms.size(), rnd, algoMessage("T0.3Softmax", armsNum, armsPreparator)));
         //algos.add(new Softmax(0.4, arms.size(), rnd, algoMessage("T0.4Softmax", armsNum, armsPreparator)));
         //algos.add(new Softmax(0.5, arms.size(), rnd, algoMessage("T0.5Softmax", armsNum, armsPreparator)));
+        algos.add(new Softmax(0.1, arms.size(), rnd, algoMessage("T0.1Softmax", armsNum, armsPreparator)));
+        algos.add(new BufferedSoftmax(0.1, arms.size(), bufferSize, rnd, algoMessage("T0.1BuffSoftmax", armsNum, armsPreparator)));
+        algos.add(new Softmax(0.5, arms.size(), rnd, algoMessage("T0.5Softmax", armsNum, armsPreparator)));
+        algos.add(new BufferedSoftmax(0.5, arms.size(), bufferSize, rnd, algoMessage("T0.5BuffSoftmax", armsNum, armsPreparator)));
 
         String sFileName = "test/datafiles/" + Long.toString(seed) + "_";
         sFileName += numSims + "sims" + "X" + horizon + "-";

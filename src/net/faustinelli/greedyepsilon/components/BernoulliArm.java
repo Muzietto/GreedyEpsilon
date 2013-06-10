@@ -7,7 +7,10 @@ package net.faustinelli.greedyepsilon.components;
 import java.util.Random;
 
 /**
- * _probability 0.1 --> 10% chance of reward
+ * _rewardProbability 0.1 --> 10% chance of reward
+ *
+ * rewards are always normalized to 1
+ *
  * @author Marco Faustinelli <contatti@faustinelli.net>
  */
 public class BernoulliArm {

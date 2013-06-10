@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import net.faustinelli.greedyepsilon.components.ValuesArrayListFactory;
+import net.faustinelli.greedyepsilon.components.ValuesListFactory;
 
 /**
  * Actually its name should be EPSILON-NAIVE!!
@@ -33,12 +35,21 @@ public class EpsilonGreedy implements BanditAlgorithm {
     protected final List<Double> _values;
     protected final Integer _armsNo;
 
-    public EpsilonGreedy(Double epsilon, Integer armsNo, Random randomizer) {
+    public EpsilonGreedy(Double epsilon, Integer armsNo, Random randomizer, ValuesListFactory factory) {
         _epsilon = epsilon;
         _randomizer = (randomizer != null) ? randomizer : new Random(System.nanoTime());
         _armsNo = armsNo;
         _counts = new ArrayList<Integer>(armsNo);
-        _values = new ArrayList<Double>(armsNo);
+        _values = factory.valuesList(armsNo);
+    }
+
+    public EpsilonGreedy(Double epsilon, Integer armsNo, Random randomizer) {
+        this(epsilon, armsNo, randomizer, new ValuesArrayListFactory());
+    }
+
+    public EpsilonGreedy(Double epsilon, Integer armsNo, Random randomizer, ValuesListFactory factory, String identifier) {
+        this(epsilon, armsNo, randomizer, factory);
+        _identifier = identifier;
     }
 
     public EpsilonGreedy(Double epsilon, Integer armsNo, Random randomizer, String identifier) {
@@ -76,8 +87,8 @@ public class EpsilonGreedy implements BanditAlgorithm {
         _values.clear();
 
         for (Integer index : Range.closed(0, _armsNo - 1).asSet(DiscreteDomains.integers())) {
-            _counts.add(optimismRate.intValue());
-            _values.add(optimismRate);
+            _counts.add(index, optimismRate.intValue());
+            _values.add(index, optimismRate);
         }
     }
 

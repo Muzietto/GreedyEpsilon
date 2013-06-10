@@ -5,6 +5,7 @@
 package net.faustinelli.greedyepsilon.table.test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import junit.framework.TestCase;
 import net.faustinelli.greedyepsilon.table.ResultsBuffer;
@@ -21,6 +22,8 @@ public class BufferedTableStuffTest extends TestCase {
     public void testResultsBuffer() {
 
         ResultsBuffer qqq = new ResultsBuffer(new Integer(2));
+        assertEquals(new Double(Double.NaN), (Double) qqq.average());
+
         qqq.add(new Double(1.0));
         assertEquals(new Double(1.0), (Double) qqq.average());
         qqq.add(new Double(2.0));
@@ -28,6 +31,8 @@ public class BufferedTableStuffTest extends TestCase {
         qqq.add(new Double(2.0));  // substitutes 1.0
         assertEquals(new Double(2.0), (Double) qqq.average());
 
+        qqq.clear();
+        assertEquals(new Double(Double.NaN), (Double) qqq.average());
     }
 
     @Test
@@ -43,12 +48,20 @@ public class BufferedTableStuffTest extends TestCase {
         buffers.add(b1);
         buffers.add(b2);
 
-        List<Double> srl = new BufferedResultsList(buffers);
+        List<Double> brl = new BufferedResultsList(buffers);
 
-        assertEquals(new Double(1.5), srl.get(0));
-        assertEquals(new Double(1.0), srl.get(1));
+        assertEquals(new Double(1.5), brl.get(0));
+        assertEquals(new Double(1.0), brl.get(1));
 
-        b2.add(new Double(2.0));
-        assertEquals(new Double(1.5), srl.get(1));
+        // test custom iterator
+        assertEquals(new Double(1.5), Collections.max(brl));
+        // test custom IndexOf
+        assertEquals(0, brl.indexOf(Collections.max(brl)));
+
+        brl.add(1, new Double(2.0));
+        assertEquals(new Double(1.5), brl.get(1));
+
+        brl.clear();
+        assertEquals(new Double(Double.NaN), brl.get(1));
     }
 }

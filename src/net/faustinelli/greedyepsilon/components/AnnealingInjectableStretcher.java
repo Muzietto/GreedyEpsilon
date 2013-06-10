@@ -13,7 +13,7 @@ import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
 import net.faustinelli.greedyepsilon.table.TableRow;
 
 /**
- * This class can also test standard EpsilonGreedy.java algorithms
+ * This class can test any sort of BanditAlgorithm's
  * @author Marco Faustinelli <contatti@faustinelli.net>
  */
 public class AnnealingInjectableStretcher extends AlgoInjectableStretcher implements BanditStretcher {

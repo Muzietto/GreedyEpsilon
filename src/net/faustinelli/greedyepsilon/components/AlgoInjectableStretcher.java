@@ -23,7 +23,7 @@ import net.faustinelli.greedyepsilon.table.TableRowsAverager;
 
 /** This is the real workhorse of the whole codebase.
  * It exercises (I mean it 'stretches' them to their limit) many sorts of algorithms
- * invoking them and organising tiehr outputs in a consistent manner.
+ * invoking them and organising their outputs in a consistent manner.
  *
  * It performs data collection for the following results:
  * - "averageReward"
@@ -72,6 +72,7 @@ public class AlgoInjectableStretcher implements BanditStretcher {
                 }
             });
 
+            // bestArm is found by comparing probabilities
             Integer curBestArm = armProbabilities.indexOf((Collections.max(armProbabilities)));
 
             algo.initialize();
@@ -86,6 +87,7 @@ public class AlgoInjectableStretcher implements BanditStretcher {
                 chosenArm.add(currArm);
                 bestArmPercentage.add((currArm == curBestArm) ? 1.0 : 0.0);
 
+                // FIRST CRUCIAL MOMENT! arm gets drawn
                 Double curReward = arms.get(chosenArm.get(curDraw)).draw();
 
                 reward.add(curReward);
@@ -96,7 +98,7 @@ public class AlgoInjectableStretcher implements BanditStretcher {
                 } else {
                     cumReward.add(cumReward.get(curDraw - 1) + curReward);
                 }
-                // CRUCIAL MOMENT! update data available to the algorithm
+                // SECOND CRUCIAL MOMENT! update data available to the algorithm
                 algo.update(currArm, curReward);
 
             }  // end single draw
