@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public interface ArmsPreparator {
 
-    List<BernoulliArm> prepareArms(Integer armsNum, Random rnd);
+    public List<BernoulliArm> prepareArms(Integer armsNum, Random rnd);
 
     public String preparatorType();
 }

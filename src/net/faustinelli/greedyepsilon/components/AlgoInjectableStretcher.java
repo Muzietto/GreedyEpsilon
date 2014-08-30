@@ -64,28 +64,39 @@ public class AlgoInjectableStretcher implements BanditStretcher {
             TableRow<Integer> simNum = new TableRow<Integer>("simNum", horizon);
             TableRow<Integer> draw = new TableRow<Integer>("draw", horizon);
 
-            final List<Double> armProbabilities =
-                    Lists.transform(arms, new Function<BernoulliArm, Double>() {
-
-                public Double apply(final BernoulliArm arm) {
-                    return arm.rewardProbability();
-                }
-            });
-
-            // bestArm is found by comparing probabilities
-            Integer curBestArm = armProbabilities.indexOf((Collections.max(armProbabilities)));
-
             algo.initialize();
+
+            // previousBestArm keeps track of changes in bestArm
+            Integer previousBestArmPosition = new Integer(0);
+
 
             // for each draw within the horizon...
             for (Integer curDraw : Range.closed(0, horizon - 1).asSet(DiscreteDomains.integers())) {
-                bestArm.add(curBestArm);
+
+                // find curBestArm
+                final List<Double> armProbabilities =
+                        Lists.transform(arms, new Function<BernoulliArm, Double>() {
+
+                    public Double apply(final BernoulliArm arm) {
+                        return arm.rewardProbability();
+                    }
+                });
+                // bestArm is found by comparing probabilities
+                Double maxArmProbability = Collections.max(armProbabilities);
+                Integer curBestArmPosition = armProbabilities.indexOf((maxArmProbability));
+
+                if (!previousBestArmPosition.equals(curBestArmPosition)) {
+                    System.out.println("sim=" + sim + "; curBestArm is now pos=" + curBestArmPosition + "; maxProb=" + maxArmProbability);
+                }
+                bestArm.add(curBestArmPosition);
+                previousBestArmPosition = new Integer(curBestArmPosition);
+
                 simNum.add(sim);
                 draw.add(curDraw);
 
                 Integer currArm = algo.selectArm();
                 chosenArm.add(currArm);
-                bestArmPercentage.add((currArm == curBestArm) ? 1.0 : 0.0);
+                bestArmPercentage.add((currArm == curBestArmPosition) ? 1.0 : 0.0);
 
                 // FIRST CRUCIAL MOMENT! arm gets drawn
                 Double curReward = arms.get(chosenArm.get(curDraw)).draw();

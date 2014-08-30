@@ -15,9 +15,7 @@ import java.util.Map;
 import java.util.Random;
 import net.faustinelli.greedyepsilon.components.MultiEpsilonCampaigner;
 import net.faustinelli.greedyepsilon.algo.BanditAlgorithm;
-import net.faustinelli.greedyepsilon.algo.BufferedEpsilonGreedy;
 import net.faustinelli.greedyepsilon.algo.BufferedSoftmax;
-import net.faustinelli.greedyepsilon.algo.EpsilonGreedy;
 import net.faustinelli.greedyepsilon.algo.Softmax;
 import net.faustinelli.greedyepsilon.components.AnnealingInjectableStretcher;
 import net.faustinelli.greedyepsilon.components.ArmsPreparator;
@@ -55,7 +53,7 @@ public class AnnealingEpsilonSoftmaxMain {
         //String sought = "cumulativeReward";
 
         Integer armsNum = 5;
-        Integer numSims = 5000;
+        Integer numSims = 2500;
         Integer horizon = 500;
         Integer bufferSize = 100;
 
@@ -97,7 +95,7 @@ public class AnnealingEpsilonSoftmaxMain {
         System.out.println("file is " + sFileName);
         Writer wrrrr = new PrintWriter(new FileWriter(sFileName));
 
-        // NB - this specific stretcher handles all sorts of bandit algorithms (crf. its javadoc)
+        // NB - this specific stretcher handles all sorts of bandit algorithms (cfr. its javadoc)
         BanditStretcher stretcher = new AnnealingInjectableStretcher(wrrrr, horizon);
 
         Map<String, TableRow> result = new HashMap<String, TableRow>();
