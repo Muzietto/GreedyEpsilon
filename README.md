@@ -1,10 +1,12 @@
 Java Greedy Epsilon
 ===================
 
+![alt image](/img/MAB-2.jpg)
+
 This repository contains my implementation of:
 
-    an Epsilon-greedy algorithm
-    a Softmax algorithm
+- an Epsilon-greedy algorithm
+- a Softmax algorithm
 
 All this according to 'Bandit Algorithms for Website Optimization', from O'Reilly.
 
